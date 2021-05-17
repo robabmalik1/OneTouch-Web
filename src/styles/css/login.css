@@ -1,0 +1,102 @@
+.login-card {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  z-index: 99;
+  align-items: center; }
+  .login-card .right-side {
+    height: 80vh;
+    background-color: #3498db;
+    width: 90%;
+    position: absolute;
+    border-radius: 60px;
+    z-index: -1;
+    transition: all 400ms ease-in-out;
+    cursor: pointer;
+    box-shadow: 0px 0px 12px 2px rgba(15, 15, 15, 0.281); }
+    .login-card .right-side.right {
+      right: -41%;
+      align-items: flex-end; }
+      .login-card .right-side.right:hover {
+        right: -45%; }
+    .login-card .right-side.left {
+      right: 41%;
+      align-items: flex-start; }
+      .login-card .right-side.left:hover {
+        right: 45%; }
+    .login-card .right-side .text {
+      font-size: 24px;
+      font-weight: 500;
+      color: #fff;
+      margin-right: 3em;
+      margin-left: 3em; }
+
+.background-img {
+  background-image: url(https://demos.creative-tim.com/tailwindcss-starter-project/_next/static/images/register_bg_2-4f2cb0ac523768c8c77be108a380cb0a.png);
+  background-size: 180vh;
+  background-repeat: no-repeat;
+  background-color: #1a202c; }
+
+.login-grid {
+  height: 100vh; }
+
+.main-paper {
+  border-radius: 4px;
+  z-index: 99;
+  width: 30vw;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12); }
+
+.login-form {
+  height: 70vh;
+  width: 25vw;
+  padding: 2%; }
+
+.custom-grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -0.5rem;
+  margin-left: -0.5rem;
+  margin-top: -0.5rem;
+  justify-content: center;
+  flex-direction: column; }
+
+.login-content {
+  display: flex;
+  flex-direction: column; }
+
+.login-content .image {
+  width: 100%; }
+
+.login-content .image img {
+  width: 100%;
+  height: 10vw; }
+
+.login-content .form span {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: fit-content;
+  margin-top: 8px; }
+
+.login-content .form span label {
+  font-size: 14px; }
+
+.login-content .form span input {
+  min-width: 18em;
+  height: 40px;
+  padding: 0px 10px;
+  font-size: 13px;
+  font-family: "Open Sans", sans-serif;
+  border-radius: 4px;
+  transition: all 250ms ease-in-out; }
+
+.login-content .form span input:hover {
+  background-color: #ffffff;
+  box-shadow: 0px 0px 14px 0.3px #0e81ce96; }
+
+.login-content .form span input:focus {
+  outline: none;
+  box-shadow: 0px 0px 12px 0.8px #3474dbb2; }

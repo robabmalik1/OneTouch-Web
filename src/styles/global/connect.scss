@@ -1,0 +1,30 @@
+.connect-main{
+  height: 100%;
+}
+
+.team-section{
+  background-color: rgba(0,0,0,0.5);
+}
+
+.card{
+  min-width: 200px;
+
+.card-title {
+  font-size: 14px;
+
+  .pos {
+    margin-bottom: 12px;
+  }
+
+}
+}
+
+
+  .connect-background-img {
+  background-image: url("../../assets/connect.svg");
+  background-size:180vh;
+  background-repeat:no-repeat;
+  background-color: #f5f5f7;
+  z-index: 1;
+
+}

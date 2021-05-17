@@ -1,0 +1,115 @@
+@import "../base/variables";
+
+// SASS Vars
+$IconsfontSize: 1.5rem !important;
+
+
+// SASS Changes
+  
+//   .p-scrollpanel-wrapper:hover {
+//     border-right: 2px solid lightblue !important;
+//   }
+  
+.publish-left{
+    background-color: $grey-lighten-4;
+}
+
+.publish-middle{
+    background-color: $grey-lighten-3;
+}
+
+.publish-right{
+    // @media screen and (min-width: 992px){
+    // width: 44.6667%;
+    // }
+    background-color: red;
+}
+
+// .p-card .p-card-footer {
+//     padding: 0 !important;
+// }
+
+.p-card .p-card-content {
+    padding-bottom: 0 !important;
+}
+
+.p-card .p-card-body {
+    padding: 0.45rem !important;
+}
+
+.p-datepicker-trigger{
+    color: #ffffff;
+    background: #2196F3 !important;
+    border: 1px solid #2196F3;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+
+// .p-multiselect {
+//     min-width: 15rem;
+//     // height: 30px !important;
+// }
+
+// .multiselect-demo .multiselect-custom .p-multiselect-label:not(.p-placeholder):not(.p-multiselect-items-label) {
+//     padding-top: .25rem;
+//     padding-bottom: .25rem;
+// }
+
+// .multiselect-demo .multiselect-custom .country-item-value {
+//     padding: .25rem .5rem;
+//     border-radius: 3px;
+//     display: inline-flex;
+//     margin-right: .5rem;
+//     background-color: var(--primary-color);
+//     color: var(--primary-color-text);
+// }
+
+// .multiselect-demo .multiselect-custom .country-item-value img.flag {
+//     width: 17px;
+// }
+
+
+//Unsplash
+.card-list {
+    column-count: 3;
+    overflow: visible !important;
+  }
+  
+  .contain{
+        margin: 0 auto;
+        width: 100%;
+        height: 90vh;
+        padding: 40px;
+        overflow: scroll;
+      
+  }
+  .card-unsplash {
+      margin-bottom: 1rem;
+      display: inline-flex;
+  }
+  
+  .card--image {
+      flex: 100%;
+      margin-top: 1rem;
+      border-radius: 10px;
+  }
+
+  
+@media (min-width: 768px) {
+    .form {
+      grid-template-columns: auto 1fr auto;
+      grid-gap: 1rem;
+      align-items: center;
+    }
+    .input {
+      margin-bottom: 0;
+    }
+  }
+  
+  @media only screen and (max-width: 600px) {
+      .card-list {
+          column-count: 1;
+      }
+  }

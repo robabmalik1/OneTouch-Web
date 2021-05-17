@@ -1,0 +1,212 @@
+/* BASE - Base Variable file along with starting point Mixins and Placeholders.
+========================================================================== */
+
+@import "../base/variables";
+@import '../base/mixins.scss';
+@import '../base/placeholders.scss';
+@import '../base/base.scss';
+
+
+// theme changes
+.p-component{
+  font-size: $font-size;
+
+  .p-card-header{
+    font-size: 1.5rem !important;
+  }
+
+  font-weight: normal;
+}
+
+.vertical-container{
+  margin: 0;
+  height: 100%;
+  border-radius: 4px;
+}
+
+.uploadPhoto{
+  height: 100vh;
+}
+
+
+.active {
+  background-color: white !important;
+  svg{
+  // #ff1744 !important;
+  color: black !important;
+  }
+}
+
+.inactive {
+  // background-color: $teal !important;
+  svg{
+  // #ff1744 !important;
+  color: white !important;
+  }
+}
+
+  .p-sidebar{
+    color: black !important;
+    box-shadow: unset !important;
+    
+  }
+
+
+  // .p-card-body{
+  //    background: #3498db;
+  // }
+
+.p-sidebar-left {
+  height: 102vh !important;
+}
+
+
+.p-sidebar-icon:enabled:hover {
+    color: $teal;
+    border-color: transparent;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.testBackground{
+  background: linear-gradient(rgb(127, 127, 213), rgb(134, 168, 231), rgb(145, 234, 228));
+}
+
+.social-card{
+  // transition: all 400ms ease-in-out;
+  position: relative;
+  z-index: 9;
+  display: inline-block;
+  
+  .common-gradient{
+  @extend %common-gradient;
+  }
+
+  .instagramBasic{
+    @include gradient($instagram-gradient);
+  }
+
+  .instagramBusiness{
+    @include gradient($instagram-gradient);
+  }
+
+  .facebook{
+    @include gradient($facebook-gradient);
+  }
+
+  .twitter{
+    @include gradient($twitter-gradient);
+  }
+
+  .youtube{
+    @include gradient($youtube-gradient);
+  }
+
+  .linkedin{
+    @include gradient($linkedin-gradient);
+  }
+
+  &:hover .common-gradient{
+        opacity: 0.8;
+  }
+
+  .test{
+    opacity: 0.8;
+  }
+  
+  
+}
+
+
+// .social-card:hover{
+  
+// }
+
+
+//Button
+.btn {
+  font-size: 21px;
+  padding: 5px 20px;
+  border: 0;
+  background-color: #3498db;
+  color: #fff;
+  border-radius: 3px;
+  transition: all 250ms ease-in-out;
+  cursor: pointer;
+  &:hover {
+    background-color: #2386c8;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+// .base-container {
+//   width: 100%;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+
+  .header {
+    font-size: 24px;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+
+    .image {
+      width: 21em;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .form {
+      
+
+      span{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: fit-content;
+        margin-top: 8px;
+        label {
+          font-size: 14px;
+          
+        }
+
+        input {
+          // margin-top: 6px;
+          min-width: 18em;
+          height: 40px;
+          padding: 0px 10px;
+          font-size: 13px;
+          // background-color: #f3f3f3;
+          // border: 0;
+          border-radius: 4px;
+          // margin-bottom: 30px;
+          transition: all 250ms ease-in-out;
+          &:hover {
+            background-color: #ffffff;
+            box-shadow: 0px 0px 14px 0.3px #0e81ce96;
+          }
+
+          &:focus {
+            outline: none;
+            box-shadow: 0px 0px 12px 0.8px #3474dbb2;
+          }
+
+        }
+      }
+
+    }
+  }
+
+  .footer {
+
+    margin-top: 1em;
+  }
+// }
+
+

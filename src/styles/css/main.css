@@ -1,0 +1,160 @@
+/* BASE - Base Variable file along with starting point Mixins and Placeholders.
+========================================================================== */
+@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
+.social-card .common-gradient {
+  transition: opacity 350ms linear;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  z-index: -1; }
+
+.social-card .common-gradient {
+  transition: opacity 350ms linear;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  z-index: -1; }
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0; }
+
+body {
+  height: 100% !important;
+  width: 100% !important;
+  overflow-x: hidden;
+  background-color: #EFF4ED; }
+
+::-webkit-scrollbar, .p-scrollpanel-bar {
+  width: 5px; }
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; }
+
+/* Handle */
+::-webkit-scrollbar-thumb, .p-scrollpanel-bar {
+  background-color: #1976d2 !important;
+  opacity: 1 !important;
+  transition: background-color .2s !important;
+  border-radius: 15px;
+  height: 20px;
+  cursor: inherit; }
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #1976d2 !important; }
+
+.p-component {
+  font-size: 0.8rem !important;
+  font-weight: normal; }
+  .p-component .p-card-header {
+    font-size: 1.5rem !important; }
+
+.vertical-container {
+  margin: 0;
+  height: 100%;
+  border-radius: 4px; }
+
+.uploadPhoto {
+  height: 100vh; }
+
+.active {
+  background-color: white !important; }
+  .active svg {
+    color: black !important; }
+
+.inactive svg {
+  color: white !important; }
+
+.p-sidebar {
+  color: black !important;
+  box-shadow: unset !important; }
+
+.p-sidebar-left {
+  height: 102vh !important; }
+
+.p-sidebar-icon:enabled:hover {
+  color: rgba(17, 236, 229, 0.6);
+  border-color: transparent;
+  background: rgba(0, 0, 0, 0.3); }
+
+.testBackground {
+  background: linear-gradient(#7f7fd5, #86a8e7, #91eae4); }
+
+.social-card {
+  position: relative;
+  z-index: 9;
+  display: inline-block; }
+  .social-card .instagramBasic {
+    background: linear-gradient(-135deg, #1400c8, #b900b4, #f50000) 0 50%; }
+  .social-card .instagramBusiness {
+    background: linear-gradient(-135deg, #1400c8, #b900b4, #f50000) 0 50%; }
+  .social-card .facebook {
+    background: linear-gradient(120deg, #3b5998, #7a9ae0); }
+  .social-card .twitter {
+    background: linear-gradient(45deg, #66757f, #00ACEE, #36D8FF, #36D8FF, #f5f8fa); }
+  .social-card .youtube {
+    background: linear-gradient(120deg, #ff0000, #282828); }
+  .social-card .linkedin {
+    background: linear-gradient(120deg, #2867B2, #FFFFFF); }
+  .social-card:hover .common-gradient {
+    opacity: 0.8; }
+  .social-card .test {
+    opacity: 0.8; }
+
+.btn {
+  font-size: 21px;
+  padding: 5px 20px;
+  border: 0;
+  background-color: #3498db;
+  color: #fff;
+  border-radius: 3px;
+  transition: all 250ms ease-in-out;
+  cursor: pointer; }
+  .btn:hover {
+    background-color: #2386c8; }
+  .btn:focus {
+    outline: none; }
+
+.header {
+  font-size: 24px; }
+
+.content {
+  display: flex;
+  flex-direction: column; }
+  .content .image {
+    width: 21em; }
+    .content .image img {
+      width: 100%;
+      height: 100%; }
+  .content .form span {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: fit-content;
+    margin-top: 8px; }
+    .content .form span label {
+      font-size: 14px; }
+    .content .form span input {
+      min-width: 18em;
+      height: 40px;
+      padding: 0px 10px;
+      font-size: 13px;
+      border-radius: 4px;
+      transition: all 250ms ease-in-out; }
+      .content .form span input:hover {
+        background-color: #ffffff;
+        box-shadow: 0px 0px 14px 0.3px #0e81ce96; }
+      .content .form span input:focus {
+        outline: none;
+        box-shadow: 0px 0px 12px 0.8px #3474dbb2; }
+
+.footer {
+  margin-top: 1em; }

@@ -1,0 +1,11 @@
+@import './placeholders';
+
+@mixin rounded-corner($arc) {
+    -moz-border-radius: $arc;
+    -webkit-border-radius: $arc;
+    border-radius: $arc;  
+}
+
+@mixin  gradient($gradient-color) {
+    background: $gradient-color;
+}
