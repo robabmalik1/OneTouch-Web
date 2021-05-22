@@ -14,16 +14,18 @@ function Planner(props){
     const [postContents, setPostContents] = useState([])
     const [events, setEvents] = useState([])
     const [selectedJobData , setSelectedJobData] = useState(null)
+    const [refresh,setRefresh]=useState(false);
 
     useEffect(() => {
         getScheduledPosts(1, responseHandler)
     }, []);
 
     const responseHandler = (msg, data)=>{
-        if(data){            
+        if(!msg){
             setPostContents(data.postContents)
             setScheduleDetails(data.scheduleDetails)
-        }else{
+        }
+        else{
             setResponse(msg)
         }
     }
@@ -34,7 +36,7 @@ function Planner(props){
             let postContent = getPostDetail(value.mongo_schedule_id)
             if(postContent){
                 eventObjs.push({
-                    'title': postContent.description || "",
+                    'title': postContent.description || postContent.normalScheduleDate,
                     'allDay': true,
                     'start': value.created_date,
                     'end': value.one_time_schedule_date,
@@ -46,6 +48,14 @@ function Planner(props){
             }            
         })
         setEvents(eventObjs)
+    }
+
+    const ifDeleted =()=>{
+        // setScheduleDetails(null)
+        getScheduledPosts(1, responseHandler);
+        setRefresh(!refresh);
+        setSelectedJobData(null)
+        // createEvents()
     }
 
     const getPostDetail = (postId)=>{
@@ -72,6 +82,7 @@ function Planner(props){
                         :
                         <></>
                 }
+                {(refresh || !refresh) &&
                 <Calendar
                     localizer={localizer}
                     events={events}
@@ -80,7 +91,8 @@ function Planner(props){
                     endAccessor="end"
                     style={{ height: '90vh' }}
                 />
-                <ScheduledJobModal data={selectedJobData} clearSelectedJob ={setSelectedJobData}/>
+                }
+                <ScheduledJobModal data={selectedJobData} clearSelectedJob ={setSelectedJobData} isDeleted={()=>ifDeleted()}/>
             </div>
         )
 }

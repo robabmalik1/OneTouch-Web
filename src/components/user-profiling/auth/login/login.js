@@ -156,7 +156,7 @@ function Login(props) {
     useEffect(()=>{
                 setButtonText("Register");
                 if (redUser) {
-                    props.history.push("/Connect");
+                    props.history.push("/Connect/Dashboard");
                 }
         },[redUser]);
 

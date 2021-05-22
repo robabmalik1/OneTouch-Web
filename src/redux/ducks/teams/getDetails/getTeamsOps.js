@@ -13,9 +13,12 @@ export const getTeamDetails = () => dispatch => {
         .then(res=>{
             if(res.data.status==="success"){
                 const localStore = new LocalStore();
+                if(localStore.getCurrTeam()!==2){
                 localStore.setCurrTeam(res.data['teamSocialAccountDetails'][0][0]['team_id']);
+
                 // const currTeam = this.LocalStore.getCurrTeam();
                 dispatch(currentTeam(res.data['teamSocialAccountDetails'][0][0]['team_id']));
+                }
                 dispatch(getUDetails());
                 dispatch(actions.teamDetailsSuccess(res.data));
             }

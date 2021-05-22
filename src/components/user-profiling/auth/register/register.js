@@ -41,7 +41,7 @@ export class Register extends Component {
         this.setState({ buttonText: "Login" })
         // If logged in and user navigates to Register page, should redirect them to dashboard
         if (this.props.user) {
-            this.props.history.push("/dashboard");
+            this.props.history.push("/Connect/Dashboard");
         }
     }
 

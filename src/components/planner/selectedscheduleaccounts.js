@@ -13,7 +13,7 @@ import {
     // List,
     Divider,
     ListItem,
-    ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, ListItemIcon
+    ListItemAvatar, Avatar, ListItemText, ListItemIcon
 } from '@material-ui/core';
 
 // import { allAttachedAccounts } from "../../../layers/utils/attachedAccounts";
@@ -24,9 +24,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 // import { Instagram } from '@material-ui/icons';
 // import ListSubheader from "@material-ui/core/ListSubheader";
 // import IconButton from "@material-ui/core/IconButton";
-const accounts =[
 
-]
 
 Array.prototype.remove = function() {
     var what, a = arguments, L = a.length, ax;
@@ -52,7 +50,7 @@ export default function AttachedAccounts(props){
             //         Accounts[index].selected = true
             let temp = Accounts.indexOf(value.toString());
             console.log(temp)
-            if(temp==-1){
+            if(temp===-1){
                 Accounts.push(value.toString());
             }
 
@@ -63,7 +61,7 @@ export default function AttachedAccounts(props){
         else{
             let temp = Accounts.indexOf(value.toString());
             console.log(temp)
-            if(temp!=-1){
+            if(temp!==-1){
                 // Accounts[temp]="";
                 Accounts.remove(value.toString());
                 // Accounts.push(value);
@@ -81,11 +79,11 @@ export default function AttachedAccounts(props){
 
     }
 
-    const [selectedAccount,setSelectedAccount]=useState('');
+    // const [selectedAccount,setSelectedAccount]=useState('');
 
     const currTeam = useSelector(state => state.currTeam.CurrentTeam);
-    const loading = useSelector(state => state.currTeam.processingTeams);
-    const error = useSelector(state => state.currTeam.CurrentTeamFailed);
+    // const loading = useSelector(state => state.currTeam.processingTeams);
+    // const error = useSelector(state => state.currTeam.CurrentTeamFailed);
 
         return (
             <>

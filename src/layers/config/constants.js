@@ -30,6 +30,9 @@ const CONSTANTS = {
         TEAM_DETAILS_BY_ID: "/team/getTeamDetails",
         CREATE_TEAM: "/team/create",
     },
+    INSIGHTS:{
+        FACEBOOK_PAGE: "insights/getFacebookPageInsights"
+    },
     FEEDS_URL: {
         FB_FEEDS: "/feeds/getFacebookFeeds",
         RECENT_FB_FEEDS: "/feeds/getRecentFbFeeds?accountId=1&teamId=1&pageId=1",

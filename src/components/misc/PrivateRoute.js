@@ -19,7 +19,7 @@ const PrivateRoute = ({ component: Component, user, ...rest }) => (
                                 </Typography>
                             </Toolbar>
                         </AppBar>
-                        <Component {...props} />
+                        <Component {...props}/>
                     </Layout>
                 </>
             ) : (

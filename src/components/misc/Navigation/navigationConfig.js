@@ -9,7 +9,7 @@ const navigationConfig = [
                 'title': 'Connect',
                 'type': 'item',
                 'icon': 'add_circle',
-                'url': '/Connect'
+                'url': '/Connect/Dashboard'
             },
             {
                 'id': 'analytics-component',

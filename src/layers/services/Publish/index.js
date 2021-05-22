@@ -7,9 +7,8 @@ const publishService = new PublishService()
 
 export const PublishPost = async (post, accounts,date, sendResponse) => {
     //post.user_id = localStore.getClientId()
-    let postsPromises = []
     let responses = []
-    const currentDate = +new Date;
+    const currentDate = +new Date();
     console.log("current Date: "+currentDate);
     console.log("Parsed date: "+date);
 
@@ -23,8 +22,9 @@ export const PublishPost = async (post, accounts,date, sendResponse) => {
         }
     }
 
-    if((date-currentDate)<0){
-        createPostData(post,accounts,1,date);
+    if(((date-currentDate)<2000) ){
+        console.log(+new Date(currentDate + 2*60000));
+        createPostData(post,accounts,1,+new Date(currentDate + 2*60000));
         sendResponse(responses)
     }
     else{
@@ -47,7 +47,7 @@ const localUploadImages = async (file, teamId)=>{
 }
 
 function createPostData(data,accounts,status,date) {
-    if(status==1){
+    if(status===1){
     let post = {
         "postType": (data.localImage)?"Image":"Link",
         "message": data.caption,
@@ -68,7 +68,7 @@ function createPostData(data,accounts,status,date) {
     }
     return publishService.publishPosts(post, data.teamId || 1)
     }
-    else if(status==2){
+    else if(status===2){
         let post = {
             "postInfo": {
                 "postType": (data.localImage)?"Image":"Link",
@@ -105,7 +105,7 @@ export const getScheduledPosts =(pageId, sendResponse)=>{
             sendResponse("Failed to get scheduled posts")
         }
     }).catch((err)=>{
-        console.log(err)
+        alert(err)
         sendResponse("Failed to get scheduled posts")
     })
 }

@@ -45,8 +45,6 @@ import LoginSuccess from "./components/user-profiling/auth/login/loginSuccess";
 import PlatformRedirect from "./components/user-profiling/connect/platformRedirect";
 import Live from "./components/livestream/live";
 import MailApp from "./components/mail/MailApp";
-import {useEffect} from "react";
-import {loadGapi} from "./components/mail/store/actions/gapiLoadingActionCreators";
 
 const jss = create({
   ...jssPreset(),
@@ -80,6 +78,11 @@ const localStore = new LocalStore();
 
 
 const theme = createMuiTheme({
+  typography: {
+    button: {
+      fontSize: '1rem',
+    },
+  },
   palette: {
     primary: {
       main: "#3C4252",
@@ -115,7 +118,7 @@ function App() {
                 <PrivateRoute path="/PR" component={PlatformRedirect} />
                 <PrivateRoute path="/Live" component={Live} />
                 <PrivateRoute path="/Mail/:handle" component={MailApp} />
-                <PrivateRoute exact path="/Connect" component={Connect} />
+                <PrivateRoute path="/Connect/:handle" component={Connect} />
                 <PrivateRoute path="/Publish" component={Publish} />
                 <PrivateRoute path="/Analytics" component={Analytics} />
                 {/* <PrivateRoute path="/Content" component={Content} /> */}

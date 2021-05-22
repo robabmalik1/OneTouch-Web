@@ -10,12 +10,7 @@ import Widget4 from './widgets/Widget4';
 import Widget5 from './widgets/Widget5';
 import { widgets } from './state'
 
-class AnalyticsDashboardApp extends Component {
-    render() {
-        console.log("hello")
-        if (!widgets) {
-            return <h1>hello</h1>;
-        }
+function AnalyticsDashboardApp (props) {
         return (
             <>
                 <div className="w-full">
@@ -41,7 +36,8 @@ class AnalyticsDashboardApp extends Component {
                                     </div>
 
                                     <div className="widget flex w-full sm:w-1/3 p-16">
-                                        <Widget3 data={widgets.data.widget3} />
+
+                                        <Widget3 data={props.widget3} />
                                     </div>
 
                                     <div className="widget w-full sm:w-1/3 p-16">
@@ -65,7 +61,6 @@ class AnalyticsDashboardApp extends Component {
                 </div>
             </>
         )
-    }
 
 }
 

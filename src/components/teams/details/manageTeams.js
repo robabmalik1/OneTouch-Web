@@ -53,7 +53,7 @@ function ManageTeams(){
 
     useEffect(()=>{
         getInvitations()
-    })
+    },[])
 
     //API Calls
     const [invite,setInvite]=useState("");

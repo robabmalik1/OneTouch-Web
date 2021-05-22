@@ -6,7 +6,8 @@ const instagramUploadService = new InstagramUpload()
 const localStore = new LocalStore()
 
 export const PublishPost = (post, accounts) => dispatch => {
-    post.user_id = localStore.getClientId()
+    alert(post.user_id);
+    // post.user_id = localStore.getClientId()
     accounts.forEach((value) => {
         switch (value) {
             case "IB":

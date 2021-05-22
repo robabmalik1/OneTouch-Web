@@ -48,6 +48,7 @@ export default function Publish(props){
     const onSubmit = async e => {
         e.preventDefault();
         let post = {
+
             teamId: localStorage.getItem("CURR_TEAM_ID"),
             caption: caption,
             image: imageUrl,
@@ -90,7 +91,14 @@ export default function Publish(props){
                                         id="contained-address-file"
                                         hidden
                                         type="file"
-                                        onChange={e=>{setImageUrl(URL.createObjectURL(e.target.files[0])); setLocalImage(e.target.files[0])}}
+                                        onChange={e=>{if(e.target.files){setImageUrl(URL.createObjectURL(e.target.files[0]))
+                                            setLocalImage(e.target.files[0])}
+                                        else{
+                                                alert("Cancelled")
+                                            }
+                                        }
+
+                                        }
                                     />
                                     <IconButton htmlFor="contained-address-file" component="label" >
                                         <Icon>photo</Icon>
@@ -153,4 +161,6 @@ export default function Publish(props){
         </>
     )
 
+
 }
+
