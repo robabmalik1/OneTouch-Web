@@ -1,8 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 
 import {useDispatch} from "react-redux";
-import {useParams} from "react-router-dom";
-import Header from "./header";
 import FusePageCarded from "../../misc/carded/FusePageCarded";
 import Dashboard from "./dashboard";
 import Sidebar from "./sidebar";
@@ -12,7 +10,6 @@ import NewProfile from "./newProfile";
 
 
 function SplitView(props){
-    const dispatch = useDispatch();
     let {handle}=props;
     useEffect(()=>{
 
@@ -28,15 +25,11 @@ function SplitView(props){
                     content: "w-full h-full",
                     header : "items-center min-h-1 h-1 sm:h-1 sm:min-h-1 "
                 }}
-                // header={
-                //     <Header pageLayout={pageLayout}/>
-                // }
+
                 contentToolbar={
-                    // props.match.params.mailId ? (
-                    //     <MailToolbar/>
-                    // ) : (
+
                     <Sidebar/>
-                    // )
+
                 }
                 content={
                     handle==="Dashboard" ? (

@@ -51,7 +51,7 @@ function SidebarContent(props)
                 <div>
 
                     <List>
-                        <ListSubheader className={classes.listSubheader} disableSticky>FOLDERS</ListSubheader>
+                        <ListSubheader className={classes.listSubheader} disableSticky>Options</ListSubheader>
 
                         {folders.length > 0 && folders.map((folder,index) => (
                             <ListItem

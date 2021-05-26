@@ -1,5 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {AppBar, Avatar, Card, CardActions, CardContent, Grid, List, Toolbar, Typography} from '@material-ui/core';
+import {
+    AppBar,
+    Avatar,
+    Card,
+    CardActions,
+    CardContent, DialogContentText,
+    DialogTitle,
+    Grid,
+    List,
+    Toolbar,
+    Typography
+} from '@material-ui/core';
 import Animate from '../../misc/animation/animate';
 import AnimateGroup from '../../misc/animateGroup/animateGroup';
 import FuseUtils from '../../misc/FuseUtils';
@@ -13,6 +24,8 @@ import {shallowEqual, useDispatch, useSelector} from "react-redux";
 import {loginInstagram} from "../../../redux/ducks/auth/login/loginOps";
 import LocalStore from "../../../layers/config/localStore";
 import InsightsModel from "./insights";
+import axios from "axios";
+import {getTeamDetails} from "../../../redux/ducks/teams/getDetails/getTeamsOps";
 
 function Dashboard(props)
 {
@@ -20,11 +33,11 @@ function Dashboard(props)
     var username = "";
     var password = "";
     const dispatch = useDispatch();
-
+    const [open,setOpen]=useState(false);
 
     const localStore = new LocalStore();
     const [accType,setAccType]=useState("")
-
+    const [id,setId]=useState(null);
     const {auth,team,loading,error, accounts} = useSelector(state=> ({
         auth: state.auth,
         team: state.currTeam.CurrentTeam,
@@ -35,7 +48,21 @@ function Dashboard(props)
     const [insightDailogStatus, setInsightDailogStatus] = useState(false)
 
 
+    const delAccount = (accountId)=>{
+        // setOpen(true)
+        axios.delete("http://localhost:5000/team/deleteSocialProfile?TeamId="+localStore.getCurrTeam()+"&AccountId="+accountId,{
+            headers: {'x-access-token': localStore.getToken()}
+        })
+            .then((res)=>{
+                console.log(res)
+                dispatch(getTeamDetails())
+                setId(null);
+                setOpen(false);
+            })
 
+
+
+    }
 
     return (
         <>
@@ -83,7 +110,7 @@ function Dashboard(props)
 
                                                     // <Feed accountId={value["account_id"]} socialId={value["social_id"]} accountType={value["account_type"]}  currTeam={localStore.getCurrTeam()} />
                                                     props.history.push({
-                                                        pathname: "Feed/Timeline",
+                                                        pathname: "/Feed/Timeline",
                                                         state: {
                                                             accountId: value["account_id"],
                                                             socialId: value["social_id"],
@@ -93,7 +120,7 @@ function Dashboard(props)
 
                                                     });
                                                 }}>View Feeds</Button>
-                                        <Button size="medium" variant="contained" color="primary">Remove
+                                        <Button size="medium" variant="contained" onClick={()=>{setId(value["account_id"]);setOpen(true);}} color="primary">Remove
                                             Account</Button>
                                         <Button size="medium" variant="contained" color="primary">Lock this
                                             profile</Button>
@@ -103,9 +130,38 @@ function Dashboard(props)
                                 </Card>
 
                             </Grid>
+
+
+                            <Dialog
+                                open={open}
+                                onClose={()=>setOpen(false)}
+                                aria-labelledby="responsive-dialog-title"
+                            >
+                                <DialogTitle id="responsive-dialog-title">{"Remove Account?"}</DialogTitle>
+
+                                <DialogActions>
+                                    <Button autoFocus onClick={()=>setOpen(false)} color="primary">
+                                        Cancel
+                                    </Button>
+                                    <Button onClick={()=>{
+                                        delAccount(id);
+                                    }} color="primary" autoFocus>
+                                        Confirm
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
+
+
                         </>
                     )
+
                 })}
+                    {team && team["teamSocialAccountDetails"][0]["SocialAccount"].length==0?
+                        <>
+                        <h1>No Accounts Added</h1>
+                        </>:<></>
+
+                    }
 
                 </Grid>
                 {/* {

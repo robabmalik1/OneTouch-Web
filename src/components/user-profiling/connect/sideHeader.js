@@ -21,7 +21,7 @@ function SideHeader(props)
 
             <div className="flex items-center flex-1">
                 <Animate animation="transition.expandIn" delay={300}>
-                    <Icon className="mr-16 text-32">mail</Icon>
+                    <Icon className="mr-16 text-32">dashboard</Icon>
                 </Animate>
                 <Animate animation="transition.slideLeftIn" delay={300}>
                     <span className="text-24">Dashboard</span>

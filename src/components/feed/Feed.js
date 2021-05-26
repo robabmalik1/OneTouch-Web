@@ -48,6 +48,7 @@ export default function Feed(props){
     const [snackBarStatus, setSnackBarStatus] = useState("")
     const [severity,setSeverity] = useState(null)
     const [feeds,setFeeds]=useState(null);
+    const [youtube,setYoutube]=useState(null);
     const [tweets,setTweets]=useState(null);
     // const getFeeds = useSelector(state => state.fbFeeds.feeds);
     // const loadingFeeds = useSelector(state => state.fbFeeds.processingFeeds);
@@ -66,6 +67,9 @@ export default function Feed(props){
             case 4:
                 getTweets();
                 break;
+            case 9:
+                getytFeeds();
+                break;
             case 12:
                 getInstaBusinessFeeds();
                 break;
@@ -74,6 +78,34 @@ export default function Feed(props){
 
         }
     },[])
+
+    const getytFeeds =()=>{
+        //getRecentFbFeeds
+        axios.get(`http://localhost:5050/feeds/getYoutubeFeeds?accountId=${props.location.state.accountId}&teamId=${props.location.state.currTeam}&pageId=1&socialAccountId=${props.location.state.socialId}`,{
+            headers: {'x-access-token': localStore.getToken()}
+        })
+            .then((res)=>{
+                if(res.data.code===200){
+                    console.log(res)
+                    setYoutube(res.data);
+                    setSeverity("success");
+                    setSnackBarStatus("Youtube Feed Fetched Successfully");
+
+                    console.log(youtube)
+                    // setInvitations(res.data.teamDetails)
+                }
+                else if(res.data.code===401){
+                    setSeverity("error");
+                    setSnackBarStatus(res.data.message);
+
+                }
+                else{
+                    setSeverity("error")
+                    setSnackBarStatus(res.data.error)
+                }
+            })
+    }
+
 
     const getFacebookFeeds =()=>{
         //getRecentFbFeeds
@@ -84,7 +116,7 @@ export default function Feed(props){
                 if(res.data.code===200){
                     setFeeds(res.data);
                     setSeverity("success");
-                    setSnackBarStatus(res.data.message);
+                    setSnackBarStatus("Facebook Feed Fetched Successfully");
 
                     console.log(feeds)
                     // setInvitations(res.data.teamDetails)
@@ -110,7 +142,7 @@ export default function Feed(props){
             .then((res)=>{
                 if(res.data.code===200){
                     setSeverity("success");
-                    setSnackBarStatus(res.data.message);
+                    setSnackBarStatus("Instagram Feed Fetched Successfully");
                     setFeeds(res.data);
                     console.log(feeds)
                     // setInvitations(res.data.teamDetails)
@@ -135,7 +167,7 @@ export default function Feed(props){
                 if(res.data.code===200){
                     setTweets(res.data);
                     setSeverity("success");
-                    setSnackBarStatus(res.data.message);
+                    setSnackBarStatus("Tweets Fetched Successfully");
 
                     console.log(feeds)
                     // setInvitations(res.data.teamDetails)
@@ -365,7 +397,22 @@ export default function Feed(props){
                             {tweets &&
                             JSON.stringify(tweets)}
 
-                        {!feeds && !tweets &&
+                        {youtube &&
+                        youtube.posts.map((vid,ind)=>{
+                            return(
+                            <>
+                                <Grid lg={6} xl={6}>
+                            <h4>{vid.title}</h4>
+                                    <iframe className="embed-responsive-item" src={vid.embed_url}
+                                            allowFullScreen></iframe>
+                                </Grid>
+                            </>
+                            )
+                        }
+                        )
+                        }
+
+                        {!feeds && !tweets && !youtube &&
                         <Grid container justify="center" alignItems="center">
                             <Spinner />
                         </Grid>

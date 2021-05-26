@@ -1,0 +1,11 @@
+.filter-control-item {
+    display: flex;
+    align-items: center;
+}
+.filters-render {
+    display: flex;
+    flex-flow: column nowrap;
+}
+.filters-list {
+    display: flex;
+}

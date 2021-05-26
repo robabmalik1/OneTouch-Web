@@ -136,7 +136,8 @@ function Login(props) {
         redError: state.auth.failedLogin,
         // redLoading: state.auth.processingLogin,
         redOTP: state.auth.otp,
-        redMessage: state.auth.message
+        redMessage: state.auth.message,
+
     }),shallowEqual);
     //Redux End
 

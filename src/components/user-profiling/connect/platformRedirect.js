@@ -8,6 +8,7 @@ import {useLocation
 import {useDispatch, useSelector} from "react-redux";
 import {addSocialAccount} from "../../../redux/ducks/auth/connections/connectionOps";
 import Checkbox from '@material-ui/core/Checkbox';
+import {getTeamDetails} from "../../../redux/ducks/teams/getDetails/getTeamsOps";
 
 const localStore = new LocalStore()
 
@@ -21,19 +22,24 @@ function PlatformRedirect(props) {
     const currNet=localStore.getCurrNetwork();
     const dispatch = useDispatch();
     let query = useQuery();
-    var code=query.get("code");
-    var state=query.get("state");
+    const code=query.get("code");
+    const state=query.get("state");
     const oauth_verifier=query.get("oauth_verifier");
+    const [pages,setPages]=useState(null);
+    const [instaB,setInstaB]=useState(null);
+
+
     useEffect(()=>{
         if(!code && !oauth_verifier){
             alert("Error");
             console.log("oauth",oauth_verifier)
-            props.history.push("/Connect");
+            props.history.push("/Connect/Dashboard");
         }
         else{
             if(currNet==="Facebook"){
                 dispatch(addSocialAccount(code,state));
                 localStore.removeCurrNetwork();
+                props.history.push("/Connect/Dashboard");
             }
             else if(currNet==="FacebookPage"){
                 getFbPages(code);
@@ -47,6 +53,7 @@ function PlatformRedirect(props) {
                 dispatch(addSocialAccount(oauth_verifier,localStore.getTwitterState()));
                 localStore.removeTwitterState();
                 localStore.removeCurrNetwork();
+                props.history.push("/Connect/Dashboard");
             }
             else if(currNet==="Youtube"){
                 getYoutubePages(code);
@@ -54,16 +61,13 @@ function PlatformRedirect(props) {
             else if(currNet==="LinkedIn"){
                 dispatch(addSocialAccount(code,state));
                 localStore.removeCurrNetwork();
+                props.history.push("/Connect/Dashboard");
             }
 
         }
 
     })
 
-
-    const [pages,setPages]=useState(null);
-    const [instaB,setInstaB]=useState(null);
-    const [ytPages,setYTPages]=useState(null);
 
     const getFbPages = async (code)=>{
         await axios.get("http://localhost:5000/profile/getOwnFacebookpages?code="+code,{
@@ -72,6 +76,26 @@ function PlatformRedirect(props) {
             .then((res)=>{
                 console.log(res)
                 setPages(res.data.pages);
+                res.data.pages.map((pg,ind)=>{
+                    addBulkAccounts([
+                        {
+                            "account_type" :"2",
+                            "user_name" : pg.pageName,
+                            "first_name" : pg.pageName,
+                            "last_name": "",
+                            "email": "",
+                            "social_id" :pg.pageId,
+                            "profile_pic_url" : pg.profilePicture,
+                            "cover_pic_url": pg.profilePicture,
+                            "access_token": pg.accessToken,
+                            "refresh_token": pg.accessToken,
+                            "friendship_counts": pg.fanCount,
+                            "info" : ""
+                        }
+
+                    ])
+                })
+
             })
     }
 
@@ -82,6 +106,25 @@ function PlatformRedirect(props) {
             .then((res)=>{
                 console.log(res)
                 setInstaB(res.data.pages);
+                res.data.pages.map((pg,ind)=>{
+                    addBulkAccounts([
+                        {
+                            "account_type" :"12",
+                            "user_name" : pg.userName,
+                            "first_name" : pg.userName,
+                            "last_name": "",
+                            "email": "",
+                            "social_id" :pg.social_id,
+                            "profile_pic_url" : pg.profile_pic,
+                            "cover_pic_url": pg.profile_pic,
+                            "access_token": pg.accessToken,
+                            "refresh_token": pg.accessToken,
+                            "friendship_counts": pg.fanCount,
+                            "info" : ""
+                        }
+
+                    ])
+                })
             })
     }
 
@@ -92,6 +135,8 @@ function PlatformRedirect(props) {
         })
             .then((res)=>{
                 console.log("bulk",res)
+                dispatch(getTeamDetails())
+                props.history.push("/Connect/Dashboard");
             })
     }
 
@@ -102,34 +147,32 @@ function PlatformRedirect(props) {
             .then((res)=>{
                 console.log(res)
                 if(res.data.code !==400){
-                localStorage.setItem("YoutubeChannels",JSON.stringify(res.data.channels));
+                // localStorage.setItem("YoutubeChannels",JSON.stringify(res.data.channels));
+
+                res.data.channels.map((channel,ind)=>{
+                    addBulkAccounts([
+                        {
+                            "account_type" :"9",
+                            "user_name" : channel.channelName,
+                            "first_name" : channel.channelName,
+                            "last_name": "",
+                            "email": "",
+                            "social_id" :channel.channelId,
+                            "profile_pic_url" : channel.channelImage,
+                            "cover_pic_url": channel.channelImage,
+                            "access_token": channel.accessToken,
+                            "refresh_token": channel.accessToken,
+                            "friendship_counts": channel.friendshipCount.subscriberCount,
+                            "info" : channel.friendshipCount.viewCount
+                        }
+
+                    ])
+                })
                 }
-                const channels = res.data.channels;
-                setYTPages(channels);
-                let arr=[];
-
-                channels.map((item,index)=>{
-                    let obj={
-                        "account_type":9,
-                        "user_name" : item.channelName,
-                        "first_name" : item.channelName,
-                        "last_name" : item.channelName,
-                        "email" : "",
-                        "social_id" : item.channelId,
-                        "profile_pic_url" : item.channelImage,
-                        "cover_pic_url" : item.channelImage,
-                        "access_token" : item.accessToken,
-                        "refresh_token" : item.refreshToken,
-                        "friendship_counts" : (item.friendshipCount).subscriberCount,
-                        "info" : (item.info).publishedDate
-                    }
-                    arr.push(obj)
+                else{
+                    alert("Something went wrong")
                 }
-                )
-                console.log(arr);
 
-
-                addBulkAccounts(arr);
 
 
             })
@@ -143,17 +186,7 @@ function PlatformRedirect(props) {
 
     return (
         <>
-            {ytPages&&
-                JSON.stringify(ytPages)
-            // pages.map((page,index)=>{
-            //     return (
-            //         <>
-            //             <h1>Select Pages to add</h1>
-            //         {JSON.stringify(page.pageName)}
-            //         </>
-            //     )
-            // })
-            }
+
 
 
 

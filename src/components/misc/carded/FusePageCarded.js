@@ -183,11 +183,11 @@ const FusePageCarded = React.forwardRef(function (props, ref) {
 
                     <div className={clsx(classes.contentCard, props.innerScroll && 'inner-scroll')}>
 
-                        {props.contentToolbar && (
-                            <div className={classes.toolbar}>
-                                {props.contentToolbar}
-                            </div>
-                        )}
+                        {/*{props.contentToolbar && (*/}
+                        {/*    <div className={classes.toolbar}>*/}
+                        {/*        {props.contentToolbar}*/}
+                        {/*    </div>*/}
+                        {/*)}*/}
 
                         {props.content && (
                             <FuseScrollbars className={classes.content} enable={props.innerScroll} scrollToTopOnChildChange={props.innerScroll}>

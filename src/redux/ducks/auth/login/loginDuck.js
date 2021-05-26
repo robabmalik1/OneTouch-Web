@@ -66,7 +66,7 @@ export default function loginReducer (state = initialState, action) {
                 user: null,
                 processingLogin: true,
                 failedLogin: null,
-                otp: false,
+                otp: true,
                 message: "Processing"
             }
         case actionTypes.LOGIN_OTP:
@@ -98,7 +98,7 @@ export default function loginReducer (state = initialState, action) {
                 user: null,
                 processingLogin: false,
                 failedLogin: action.payload,
-                otp: true,
+                otp: false,
                 message: null
             
             };

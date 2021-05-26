@@ -147,7 +147,7 @@ function NewProfile(props) {
                 </Dialog>
 
                 <Grid container className={"connect-background-img connect-main"}>
-                    <Grid item container className={"team-section"} direction="row" xl={12} lg={12} md={12}>
+                    <Grid item container className={"team-section"}  xl={12} lg={12} md={12}>
                         {team &&
                         <>
                             <Grid item className={`p-12 ml-24`} md={12} lg={12}>
@@ -173,17 +173,12 @@ function NewProfile(props) {
 
 
                             </Grid>
-                            <Grid item lg={12} align="center">
-                                <Typography variant="h3" color="textSecondary">
-                                    Add New Profiles
-                                </Typography>
-                            </Grid>
-                            <Grid item container>
+                            <Grid item container justify={"space-between"}>
                                 {loginCardsData.map(
                                     (item, index) => {
                                         return (
                                             //setState(
-                                            <Grid item container justify={"space-between"} key={index} xl={3} lg={3} md={4}
+                                            <Grid item container key={index} xl={4} lg={4} md={4}
                                                   onClick={() => handleCallback(item.state)} style={{padding: '2%'}}>
                                                 <Card className={`${item.cName} `}
                                                       style={{width: '100%', padding: '15%'}}>

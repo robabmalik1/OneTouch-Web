@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState} from 'react'
+import React, {Component, createRef, useEffect, useState} from 'react'
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from "prop-types";
@@ -17,11 +17,13 @@ import SocialView from './social-view/socialView';
 import SnackBar from "../../misc/snackbar";
 
 
+
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export default function Publish(props){
+
     const [caption,setCaption] = useState("");
     const [date,setDate]= useState(+new Date());
     //moment(new Date()).format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS)
@@ -58,8 +60,12 @@ export default function Publish(props){
         await PublishPost(post, selectedAccounts,date, (response)=>{setResponse(response)})
     }
 
+
     return (
         <>
+            <div id={"tui-image-editor"}>
+
+            </div>
             <Grid container xl={12} lg={12} spacing={2}>
                 {
                     response &&

@@ -27,9 +27,11 @@ export const getOTP = userData => dispatch => {
         .then(res => {
             //              Save to localStorage
             if (res.data.code === 200) {
+                console.log(res)
                 // setUser(res.data)
                 localStore.setCurrEmail(res.data.user.email);
                 dispatch(actions.loginOTP());
+
             } else {
                 dispatch(actions.loginFailed(res.data.error))
             }

@@ -15,6 +15,7 @@ import { withRouter } from "react-router-dom";
 //css
 import "../../../../styles/css/register.css";
 
+//TODO Change to functional
 export class Register extends Component {
     constructor() {
         super();
@@ -79,6 +80,7 @@ export class Register extends Component {
     onSubmit = e => {
         e.preventDefault();
 
+        if(this.state.password===this.state.password2){
         const newUser = {
             user: {
                     email: this.state.email,
@@ -99,6 +101,9 @@ export class Register extends Component {
 
         this.props.registerUser(newUser, this.props.history);
         console.log(newUser);
+        }else{
+            alert("Passwords don't match")
+        }
 
     };
 
@@ -200,6 +205,15 @@ export class Register extends Component {
                                                 fullWidth
                                                 value={this.state.password}
                                                 label="Password"
+                                            />
+
+                                            <TextField
+                                                id="password2"
+                                                required
+                                                type="password"
+                                                fullWidth
+                                                value={this.state.password2}
+                                                label="Confirm Password"
                                             />
 
                                             {error &&
