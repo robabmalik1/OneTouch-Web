@@ -15,6 +15,7 @@ import { PublishPost } from "layers/services/Publish";
 import SocialView from './social-view/socialView';
 
 import SnackBar from "../../misc/snackbar";
+import LocalStore from "../../../layers/config/localStore";
 
 
 
@@ -22,10 +23,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
+const localStore = new LocalStore();
+
 export default function Publish(props){
 
     const [caption,setCaption] = useState("");
-    const [date,setDate]= useState(+new Date());
+    const [date,setDate]= useState(new Date());
     //moment(new Date()).format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS)
     const [openUnsplash,setOpenUnsplash]=useState(false);
     const [imageUrl,setImageUrl] = useState(false);
@@ -39,6 +42,11 @@ export default function Publish(props){
     const accounts = useSelector(state=>state.attached_accounts);
 
     useEffect(()=>{
+        if(props.location.state){
+            setImageUrl(props.location.state.media_path)
+            // setLocalImage(props.location.state.media_path)
+        }
+        else{setImageUrl("")}
     },[])
 
     const selectedImage = (src, alt) => {
@@ -51,21 +59,31 @@ export default function Publish(props){
         e.preventDefault();
         let post = {
 
+            teamId: localStore.getCurrTeam(),
+            caption: caption,
+            image: imageUrl,
+            upload_date: date,
+            localImage: localImage
+        }
+        await PublishPost(post, selectedAccounts,date, 0,(response)=>{setResponse(response)})
+    }
+
+    const onSaveAsDraft = async e => {
+        e.preventDefault();
+        let post = {
+
             teamId: localStorage.getItem("CURR_TEAM_ID"),
             caption: caption,
             image: imageUrl,
             upload_date: date,
             localImage: localImage
         }
-        await PublishPost(post, selectedAccounts,date, (response)=>{setResponse(response)})
+        await PublishPost(post, selectedAccounts,date, 5,(response)=>{setResponse(response)})
     }
 
 
     return (
         <>
-            <div id={"tui-image-editor"}>
-
-            </div>
             <Grid container xl={12} lg={12} spacing={2}>
                 {
                     response &&
@@ -73,7 +91,7 @@ export default function Publish(props){
                         <SnackBar error={value.msg} clear={() => setResponse(null)}/>
                     ))
                 }
-                <Grid item container xl={12} lg={12} md={12} sm={12} spacing={2} className="ml-12">
+                <Grid item container xl={12} lg={12} md={12} sm={12} spacing={4} className="ml-12 flex flex-nowrap">
                     <Grid item xl={2} lg={2} md={12} sm={12} className="mr-4">
                         <AttachedAccounts onSelectAccount={(account)=>setSelectedAccounts(account)} />
                     </Grid>
@@ -109,18 +127,32 @@ export default function Publish(props){
                                     <IconButton htmlFor="contained-address-file" component="label" >
                                         <Icon>photo</Icon>
                                     </IconButton>
+                                    <IconButton htmlFor="contained-address-file" component="label" >
+                                        <Icon > videocam</Icon>
+                                    </IconButton>
                                     <IconButton aria-label="Mention somebody">
-                                        <Icon>person</Icon>
+                                        <Icon>#</Icon>
                                     </IconButton>
                                     <Button onClick={() => {setOpenUnsplash(true)}}>
 
                                         <svg className="p-2" viewBox="0 0 186.5 158.7" width="20" height="50"><path class="st0" d="M23.9 26.4h138.7c8.3 0 11.3.9 14.4 2.5 3 1.6 5.4 4 7 7 1.6 3 2.5 6.1 2.5 14.4v84.4c0 8.3-.9 11.3-2.5 14.4-1.6 3-4 5.4-7 7-3 1.6-6.1 2.5-14.4 2.5H23.9c-8.3 0-11.3-.9-14.4-2.5s-5.4-4-7-7C.9 146.1 0 143 0 134.7V50.4C0 42 .9 39 2.5 36s4-5.4 7-7c3.1-1.7 6.1-2.6 14.4-2.6zm69.4 108.8c24.1 0 43.7-19.7 43.7-44.1S117.4 47 93.3 47 49.5 66.8 49.5 91.1s19.6 44.1 43.8 44.1z" /><ellipse class="st0" cx="94.7" cy="92.6" rx="27.7" ry="27.9" /><path class="st0" d="M43.7 26.3C49 9.5 55 .7 61.6 0l60.4.5c.6 0 1.2.2 1.7.5 7.8 5.4 13.1 13.8 16 25.3 2.9 11.9-29.1 11.9-96 0z" /></svg>
                                         Unsplash
                                     </Button>
-                                </div>
+                                    <Button href={"/ContentStudio"} aria-label="Content Stuido">
+                                        <Icon>videolabel</Icon>
+                                        Content Studio
+                                    </Button>
 
-                                <div className="p-2">
-                                    <Button variant="contained" onClick={onSubmit} color="primary" size="small" aria-label="post">
+
+
+                                </div>
+                                <div className="p-16 ">
+                                    <Button variant="contained" onClick={onSaveAsDraft} color="primary" size="medium" aria-label="postdraft">
+                                        Save as Draft
+                                    </Button>
+                                </div>
+                                <div className="p-16">
+                                    <Button variant="contained" onClick={onSubmit} color="primary" size="medium" aria-label="post">
                                         POST
                                     </Button>
                                 </div>
@@ -128,10 +160,10 @@ export default function Publish(props){
                             </AppBar>
                         </Card>
 
-                        <Card>
-                            <AppBar className="flex flex-row border-t-1" position="static" color="default" elevation={0}>
+                        <Card className={"mt-28"}>
+                            <AppBar className="flex flex-row border-t-1 " position="static" color="default" elevation={0}>
                                 <Icon>date_range</Icon>
-                                <Typography component="h1" style={{fontSize: 20}}>
+                                <Typography component="h6" style={{fontSize: 12}}>
                                     {"Schedule"}
                                 </Typography>
                             </AppBar>
@@ -156,10 +188,12 @@ export default function Publish(props){
                                 <UnsplashLib onImageClick={selectedImage} />
                             </Dialog>
                         </Grid>
+
                     </Grid>
-                    <Grid className="mt-24 overflow-hidden" item xl={5} lg={4} md={12} sm={12} style={{ height: '80vh' }} >
+                    <Grid className={"mt-24"} item xl={6} lg={6} md={12} sm={12}  >
                         <SocialView caption={caption} img={imageUrl} selectedAccounts={selectedAccounts} />
                     </Grid>
+                    {/*<Button variant={"outlined"} onClick={()=>{alert(imageUrl)}} >Edit</Button>*/}
 
                 </Grid>
             </Grid>

@@ -12,8 +12,19 @@ function Widget2(props) {
             <div className="p-16 pb-0 flex flex-row flex-wrap items-end">
 
                 <div className="pr-16">
-                    <Typography className="h3" color="textSecondary">Growth</Typography>
+                    <Typography className="h3" color="textSecondary">
+                        {
+                            (props.type === "FP")?
+                                "New Fan Page Growth"
+                                :
+                                (props.type === "TW")?
+                                    "Followers"
+                                    :
+                                    "Impressions"
+                        }                        
+                    </Typography>
                     <Typography className="text-56 font-300 leading-none mt-8">
+                        {console.log(props.data.Growth.value)}
                         {props.data.Growth.value}
                     </Typography>
                 </div>

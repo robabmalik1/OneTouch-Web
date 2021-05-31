@@ -47,14 +47,14 @@ export const actions = {
             payload: data
         }
     },
+    resetLoginError(){
+        return {
+            type: actionTypes.LOGIN_ERROR_RESET,
+            payload: null
+        }
+    }
 };
 
-export const resetLoginError= () =>{
-    return {
-        type: actionTypes.LOGIN_ERROR_RESET,
-        payload: null
-    }
-}
 
 // Reducer
 
@@ -97,11 +97,11 @@ export default function loginReducer (state = initialState, action) {
             return { ...state,
                 user: null,
                 processingLogin: false,
-                failedLogin: action.payload,
+                failedLogin: "Login Failed",
                 otp: false,
                 message: null
             
-            };
+            }
         case actionTypes.LOGIN_ERROR_RESET:
             return { ...state,
                 user: null,
@@ -109,7 +109,7 @@ export default function loginReducer (state = initialState, action) {
                 failedLogin: null,
                 otp: false,
                 message: null
-            };
+            }
         default:
             return state;
     }

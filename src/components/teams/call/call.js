@@ -44,41 +44,46 @@ const Call = (props) => {
     const [audioMuted, setAudioMuted] = useState(false)
     const [videoMuted, setVideoMuted] = useState(false)
 
-    useEffect(() => {
-        socketRef.current = io.connect("http://localhost:1340/");
-        navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then(stream => {
-            setStream(stream)
-            userVideo.current.srcObject = stream;
-            socketRef.current.emit("join room", roomID);
-            socketRef.current.on("all users", users => {
-                const peers = [];
-                users.forEach(userID => {
-                    const peer = createPeer(userID, socketRef.current.id, stream);
-                    peersRef.current.push({
-                        peerID: userID,
-                        peer,
-                    })
-                    peers.push(peer);
-                })
-                setPeers(peers);
-            })
-
-            socketRef.current.on("user joined", payload => {
-                const peer = addPeer(payload.signal, payload.callerID, stream);
+    // useEffect(() => {
+    //
+    // }, []);
+function startCall(){
+    socketRef.current = io.connect("http://localhost:1340/");
+    navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then(stream => {
+        setStream(stream)
+        userVideo.current.srcObject = stream;
+        socketRef.current.emit("join room", roomID);
+        socketRef.current.on("all users", users => {
+            const peers = [];
+            users.forEach(userID => {
+                const peer = createPeer(userID, socketRef.current.id, stream);
                 peersRef.current.push({
-                    peerID: payload.callerID,
+                    peerID: userID,
                     peer,
                 })
-                myPeer.current=peer;
-                setPeers(users => [...users, peer]);
-            });
-
-            socketRef.current.on("receiving returned signal", payload => {
-                const item = peersRef.current.find(p => p.peerID === payload.id);
-                item.peer.signal(payload.signal);
-            });
+                peers.push(peer);
+            })
+            setPeers(peers);
         })
-    }, []);
+
+        socketRef.current.on("user joined", payload => {
+            const peer = addPeer(payload.signal, payload.callerID, stream);
+            peersRef.current.push({
+                peerID: payload.callerID,
+                peer,
+            })
+            myPeer.current=peer;
+            setPeers(users => [...users, peer]);
+        });
+
+        socketRef.current.on("receiving returned signal", payload => {
+            const item = peersRef.current.find(p => p.peerID === payload.id);
+            item.peer.signal(payload.signal);
+        });
+    })
+
+}
+
 
     function toggleMuteAudio(){
         if(stream){
@@ -138,24 +143,35 @@ const Call = (props) => {
     }
 
     function shareScreen(){
+        if(myPeer.current){
         navigator.mediaDevices.getDisplayMedia({cursor:true})
             .then(screenStream=>{
+
                 myPeer.current.replaceTrack(stream.getVideoTracks()[0],screenStream.getVideoTracks()[0],stream)
                 userVideo.current.srcObject=screenStream
                 screenStream.getTracks()[0].onended = () =>{
                     myPeer.current.replaceTrack(screenStream.getVideoTracks()[0],stream.getVideoTracks()[0],stream)
                     userVideo.current.srcObject=stream
                 }
-                })
+
+            }
+                )
+        }
+        else{
+            alert("Please Join the Call First")
+        }
     }
 
     return (
         <>
-            <Button onClick={()=>{shareScreen()}}>Share Screen</Button>
-            <Button onClick={()=>{endCall()}}>End Call</Button>
-            <Button onClick={()=>{toggleMuteAudio()}}>Toggle Mic</Button>
-            <Button onClick={()=>{toggleMuteVideo()}}>Toggle Camera</Button>
-            <Paper
+            <div className={"bg-grey"}>
+            <Button clasFsName={"bg-blue m-2"}  onClick={()=>{shareScreen()}}>Share Screen</Button>
+            <Button className={"bg-blue m-2"} onClick={()=>{endCall()}}>End Call</Button>
+            <Button className={"bg-blue m-2"} onClick={()=>{toggleMuteAudio()}}>Toggle Mic</Button>
+            <Button className={"bg-blue m-2" } onClick={()=>{toggleMuteVideo()}}>Toggle Camera</Button>
+            <Button className={"bg-blue m-2"} onClick={()=>{startCall()}}>Start Call</Button>
+            </div>
+                <Paper
                 className={"p-2 h-screen w-9/12 flex flex-wrap "}
             // style={{
             //     padd

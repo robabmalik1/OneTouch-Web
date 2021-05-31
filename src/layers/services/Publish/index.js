@@ -5,10 +5,10 @@ const publishService = new PublishService()
 //todo use UserId from local store to maintain consistency
 //const localStore = new LocalStore()
 
-export const PublishPost = async (post, accounts,date, sendResponse) => {
+export const PublishPost = async (post, accounts,date,draft, sendResponse) => {
     //post.user_id = localStore.getClientId()
     let responses = []
-    const currentDate = +new Date();
+    var currentDate = new Date();
     console.log("current Date: "+currentDate);
     console.log("Parsed date: "+date);
 
@@ -21,15 +21,24 @@ export const PublishPost = async (post, accounts,date, sendResponse) => {
             sendResponse(null)
         }
     }
-
-    if(((date-currentDate)<2000) ){
-        console.log(+new Date(currentDate + 2*60000));
-        createPostData(post,accounts,1,+new Date(currentDate + 2*60000));
+    if(draft===5){
+        createPostData(post,accounts,5,new Date(currentDate + 2*60000));
         sendResponse(responses)
+        alert("Saved as draft")
+    }else{
+    if(((date-currentDate)<2000) ){
+        const newDate = +new Date(currentDate + 10*60000);
+        console.log(newDate);
+        // moment().add(5,'minutes')
+        createPostData(post,accounts,1,+new Date(currentDate + 10*60000));
+        sendResponse(responses)
+        alert("Will be published in a few minutes")
     }
     else{
         createPostData(post,accounts,2,date);
         sendResponse(responses)
+        alert("Scheduled")
+    }
     }
 }
 
@@ -91,12 +100,33 @@ function createPostData(data,accounts,status,date) {
         }
         return publishService.schedulePosts(post)
     }
+    else if(status===5){
+        let post = {
+            "postType": (data.localImage)?"Image":"Link",
+            "message": data.caption,
+            "mediaPaths": [
+                (data.localImage)?data.image:""
+            ],
+            "link": (!data.localImage)?data.image:"",//set link if there is no local image selected
+            "accountIds": accounts,
+            "postStatus": 0,
+            "pinBoards": [
+                {
+                    "accountId": 0,
+                    "boardId": [
+                        ""
+                    ]
+                }
+            ]
+        }
+        return publishService.publishPosts(post, data.teamId || 1)
+    }
 }
 
 export const getScheduledPosts =(pageId, sendResponse)=>{
     publishService.getScheduledPosts(pageId).then((res)=>{
         if(res.status === 200){
-            if(res.data.scheduleDetails && res.data.scheduleDetails.length > 0){
+            if(res.data.postContents && res.data.postContents.length>0 && res.data.scheduleDetails && res.data.scheduleDetails.length > 0){
                 sendResponse("",res.data)
             }else{
                 sendResponse("No posts founded")

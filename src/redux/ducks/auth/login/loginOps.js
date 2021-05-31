@@ -20,9 +20,14 @@ function setUser(data) {
     localStore.setUser(JSON.stringify(user))
     localStore.setUserId(user.user_id);
 }
+
+export const resetOTP =()=>dispatch=>{
+    dispatch(actions.resetLoginError());
+}
+
 //get OTP
 export const getOTP = userData => dispatch => {
-    dispatch(actions.processingLoginMessage());
+    // dispatch(actions.processingLoginMessage());
     auth.logIn(userData)
         .then(res => {
             //              Save to localStorage
@@ -60,7 +65,7 @@ export const forgPassword = email => dispatch => {
 
 //Social Login
 export const socialLog = network => dispatch => {
-    dispatch(actions.processingLoginMessage());
+    // dispatch(actions.processingLoginMessage());
     auth.socialLogin(network)
         .then(res => {
             //              Save to localStorage
@@ -107,10 +112,12 @@ export const loginUser = userData => dispatch => {
             setUser(res.data)
             dispatch(actions.loginSuccess(res.data.user));
         } else {
-            dispatch(actions.loginFailed(res.data.error))
+            alert("OTP Wrong. Try Again")
+            // dispatch(actions.loginFailed(res.data.error))
         }
     }).catch( err =>
-        dispatch(actions.loginFailed(err))
+        console.log(err)
+        // dispatch(actions.loginFailed(err))
     );
 };
 
@@ -138,10 +145,11 @@ export const loggedUser = data => dispatch => {
 // Log user out
 export const logoutUser = () => dispatch => {
     // Remove token from local storage
-    localStore.removeToken();
-    localStore.removeUser();
-    localStore.removeCurrTeam();
-    localStore.removeUserId();
+    // localStore.removeToken();
+    // localStore.removeUser();
+    // localStore.removeCurrTeam();
+    // localStore.removeUserId();
+    localStorage.clear();
     // Remove auth header for future requests
     // Set current user to empty object {} which will set isAuthenticated to false
     //todo create reducer and action for logout

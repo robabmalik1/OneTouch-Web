@@ -3,13 +3,6 @@ import { Instagram, Twitter, YouTube, LinkedIn } from '@material-ui/icons';
 import FacebookIcon from '@material-ui/icons/Facebook';
 export const loginCardsData = [
     {
-        title: "IG Basic",
-        icon: < Instagram fontSize="large" />,
-        cName: "social-card ",
-        spanClass: "common-gradient instagramBasic",
-        state: "IGB"
-    },
-    {
         title: "Facebook",
         icon: <FacebookIcon fontSize="large" />,
         cName: "social-card ",
@@ -24,7 +17,7 @@ export const loginCardsData = [
         state: "FacebookPage"
     },
     {
-        title: "Instagram Business",
+        title: "Instagram",
         icon: <Instagram fontSize="large" />,
         cName: "social-card ",
         spanClass: "common-gradient instagramBusiness",

@@ -31,7 +31,14 @@ const CONSTANTS = {
         CREATE_TEAM: "/team/create",
     },
     INSIGHTS:{
-        FACEBOOK_PAGE: "insights/getFacebookPageInsights"
+        FACEBOOK_PAGE: "insights/getFacebookPageInsights",
+        TWITTER: "insights/getTwitterInsights",
+        INSTAGRAM: "insights/getInstagramBusinessInsights"
+    },
+    TASKS:{
+        GET_TASKS: "task/getTasks",
+        UPDATE_TASK: "task/updateTaskStatus",
+        ASSIGN_TASK: "task/assignTask"
     },
     FEEDS_URL: {
         FB_FEEDS: "/feeds/getFacebookFeeds",

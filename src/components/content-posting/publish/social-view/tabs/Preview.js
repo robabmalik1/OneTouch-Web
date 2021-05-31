@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-    AppBar,
+    AppBar, Button,
     // Avatar,
     // Button,
     Card,
@@ -57,10 +57,10 @@ function TimelineTab(props) {
     const { selectedAccounts, img, caption } = props;
 
     return (
-        <div className="md:flex ">
+        <div className="md:flex  ">
             {/* max-w-2xl */}
 
-            <div className="flex flex-col flex-1 md:pr-32">
+            <div className="flex flex-col  flex-1 md:pr-32 align-middle ">
 
                 <AnimateGroup
                     enter={{
@@ -69,21 +69,21 @@ function TimelineTab(props) {
                 >
 
                     {data.posts.map((post) => (
-                        <Card key={post.id} className="mb-32 overflow-hidden">
-                            <CardContent className="p-12 ml-2">
+                        <Card key={post.id} className="mb-32 max-w-publish overflow-hidden">
+                            <CardContent className="p-12 ml-2 ">
                                 {!img && (
                                     // {!imageUrl &&
-                                    <Skeleton className="ml-4" height={360} width={550} />
+                                    <Skeleton className="ml-4 h-full w-full"  />
                                     // }
 
                                 )}
 
                                 {img && (
                                     <img
+                                        className={"mx-auto "}
+                                        width={"100%"}
                                         src={img}
                                         alt="post"
-                                        width="100%"
-                                        style={{ maxWidth: '900px' }}
                                     />
                                 )}
 

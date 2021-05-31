@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 import {
     Avatar,
     Divider,
-    Fab,
+    Fab, Icon,
     IconButton,
     List,
     ListItem,
@@ -18,17 +18,13 @@ import {useSelector} from "react-redux";
 import io from "socket.io-client";
 import axios from "axios";
 import LocalStore from "../../../layers/config/localStore";
+import Moment from "react-moment";
 
 
 const drawerWidth = 240;
 const useStyles = makeStyles({
     table: {
         minWidth: 350,
-    },
-    chatSection: {
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'lightblue'
     },
     headBG: {
         backgroundColor: '#e0e0e0'
@@ -52,8 +48,9 @@ const useStyles = makeStyles({
 });
 const localStore = new LocalStore();
 // const socketOptions = {secure: true, reconnection: true, reconnectionDelay: 1000, timeout:15000, pingTimeout: 15000, pingInterval: 45000,withCredentials: true,extraHeaders: {"x-access-token": localStore.getToken()}};
-const socket = io("http://localhost:1337");
-//, socketOptions
+const socket = io(process.env.REACT_APP_CHAT_API_URL_HEROKU);
+
+
 function Chat(props) {
     const classes = useStyles();
 
@@ -83,9 +80,9 @@ function Chat(props) {
             socket.emit('fetchNew',currGroup);
             }
                 // fetchNewMessages(currGroup)
-            // return ()=>{
-            //     socket.off("connected",eventHandler);
-            // }
+            return ()=>{
+                socket.off("connected",()=>{socket.disconnect()});
+            }
         });
 
 
@@ -167,42 +164,28 @@ function Chat(props) {
     return (
         <>
 
-            <Grid container component={Paper} className={classes.chatSection}>
-                <Grid item xs={3} lg={3} xl={3} className={classes.sidebar}>
-                    <List>
-                        <ListItem key={currTeam && currTeam['teamSocialAccountDetails'][0]['team_id']}>
-                            <ListItemText primary={(currTeam && currTeam['teamSocialAccountDetails'][0]['team_name']) || (currTeamLoading && <h1>Loading</h1>)}></ListItemText>
-                            <ListItemSecondaryAction>
-                                <IconButton edge="end" aria-label="delete">
-                                        New Group
-                                </IconButton>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                    </List>
-                <Divider />
-                <Grid item xs={12} style={{padding: '10px'}}>
-                <TextField className={classes.search} id="outlined-basic-email" label="Search" variant="standard" fullWidth />
-                </Grid>
-                <Divider />
-                <List>
-                    {groups && groups.map((item,index)=>{
-                        return (<>
+            <Grid container component={Paper} className={"h-full w-full"}>
+                {/*<Grid item xs={3} lg={3} xl={3} className={classes.sidebar}>*/}
+                {/*<Divider />*/}
+                {/*<List>*/}
+                {/*    {groups && groups.map((item,index)=>{*/}
+                {/*        return (<>*/}
 
-                            <ListItem button key={item.id} onClick={()=>{fetchNewMessages(item.id)}} >
-                                <ListItemIcon>
-                                    <Avatar alt={item.id} src={item.group_name[0]} />
-                                </ListItemIcon>
-                                <ListItemText primary={item.group_name}>{item.group_name}</ListItemText>
-                            </ListItem>
-                                <Divider />
-                        </>
-                        )
-                    }
-                    )
-                    }
-                </List>
-                </Grid>
-                <Grid item xs={9}>
+                {/*            <ListItem button key={item.id} onClick={()=>{fetchNewMessages(item.id)}} >*/}
+                {/*                <ListItemIcon>*/}
+                {/*                    <Avatar className={"p-2"} alt={item.id}  > {item.group_name} </Avatar>*/}
+                {/*                </ListItemIcon>*/}
+                {/*                <ListItemText className={"text-lg"} primary={item.group_name}>{item.group_name}</ListItemText>*/}
+                {/*            </ListItem>*/}
+                {/*                <Divider />*/}
+                {/*        </>*/}
+                {/*        )*/}
+                {/*    }*/}
+                {/*    )*/}
+                {/*    }*/}
+                {/*</List>*/}
+                {/*</Grid>*/}
+                <Grid item xs={12}>
 
 
                     <List className={classes.messageArea} ref={messageEl}>
@@ -216,29 +199,54 @@ function Chat(props) {
                                             {/*<Grid container spacing={1} alignItems="flex-end">*/}
                                             {msg.user_id==currUser?
                                                 <>
+
                                                     <Grid item xs={12}>
                                                         <ListItemText className={
-                                                            "bg-blue-light float-right w-2/4 mx-4 my-2 p-2 rounded-lg clearfix"
-                                                        } align="right" primary={msg.content}>
+                                                            " float-right bg-blue w-2/4 mx-4 my-2 p-2 rounded-lg clearfix"
+                                                        } align="right" primary={<>
+                                                            <div className="w-full talk-bubble tri-right btm-right ">
+                                                                <div className="talktext-right h-full">
+                                                                    <p className={"text-base text-white"}>{msg.content}</p>
+                                                                    <p className={"text-sm text-white"} >{<Moment locale={"ru"} fromNow add={{hours: 5}} date={msg.createdAt}/>}</p>
+                                                                </div>
+                                                            </div>
+                                                        </>}>
                                                         </ListItemText>
 
                                                     </Grid>
                                                     <Grid item xs={12}>
                                                         {/*<ListItemText align="right" secondary={(msg.user_detail.user_name || "error") }></ListItemText>*/}
-                                                        <ListItemText align="right" secondary={(msg.name || "error") }></ListItemText>
+                                                        <ListItemText  align="right" secondary={
+                                                            <>
+                                                                <p className={"text-base "}>{(msg.name || "error")}</p>
+                                                            </>
+                                                            }></ListItemText>
                                                     </Grid>
                                                 </>
                                             :
                                                 <>
                                                     <Grid item xs={12}>
+
                                                         {/*<ListItemText align="left" secondary={(msg.user_detail)?msg.user_detail.user_name:""}></ListItemText>*/}
-                                                        <ListItemText className={"ml-8"} align="left" secondary={msg.name}></ListItemText>
+                                                        <ListItemText className={"ml-8 "} align="left" secondary={
+                                                         <>
+                                                         <p className={"text-base "}>{msg.name}</p>
+
+                                                         </>
+                                                        }></ListItemText>
                                                     </Grid>
                                                     <Grid item xs={12}>
                                                         <ListItemText className={
-                                                            "bg-pink-light float-left w-2/4 mx-4 my-2 p-2 rounded-lg clearfix"
-                                                        } align="left" primary={msg.content} >
-                                                        </ListItemText>
+                                                            " float-left bg-red-light ml-64 w-2/4 mx-4 my-2 p-2 rounded-lg clearfix"
+                                                        } align="left" primary={<>
+                                                            <div className=" talk-bubble  tri-right left-top">
+                                                                <div className="talktext text-right h-full">
+                                                                    <p className={"text-base text-white mb-64"}>{msg.content}</p>
+                                                                    <p className={"text-sm text-white"} >{<Moment locale={"ru"} fromNow add={{hours: 5}} date={msg.createdAt}/>}</p>
+                                                                </div>
+                                                            </div>
+                                                        </>} />
+
 
                                                     </Grid>
                                                 </>
@@ -258,8 +266,8 @@ function Chat(props) {
                     <Grid container style={{padding: '20px'}}>
                         <Grid item xs={11}>
                             {/* socket.emit("is_typing",typo);*/}
-                            <TextField id="outlined-basic-email" value={message} onChange={e=>{setMessage(e.target.value);}} onKeyPress={e=>{if(e.key === 'Enter'){sendMessage(e)}
-                            }} label="Type Something" fullWidth />
+                            <TextField id="outlined-basic-email"  value={message} onChange={e=>{setMessage(e.target.value);}} onKeyPress={e=>{if(e.key === 'Enter'){sendMessage(e)}
+                            }} label="Type here" fullWidth />
                         </Grid>
                         <Grid xs={1} align="right">
                             <Fab color="primary" aria-label="add" onClick={(e)=>{
@@ -267,7 +275,7 @@ function Chat(props) {
                                 sendMessage(e)
                             }}
 
-                            >Send</Fab>
+                            ><Icon>send</Icon> </Fab>
                         </Grid>
                     </Grid>
                     {/*{!groupSelected && <h1>Select a group</h1>}*/}
@@ -276,5 +284,4 @@ function Chat(props) {
         </>
         );
 }
-
 export default Chat;

@@ -8,11 +8,20 @@ function Widget4(props) {
 
     return (
         <Card className="w-full rounded-8 shadow-none border-1">
-
             <div className="p-16 pb-0 flex flex-row items-end flex-wrap">
 
                 <div className="pr-16">
-                    <Typography className="h3" color="textSecondary">Engagement</Typography>
+                    <Typography className="h3" color="textSecondary">
+                        {
+                            (props.type === "FP")?
+                                "Left Page Fans"
+                                :
+                                (props.type === "TW")?
+                                    "Posts"
+                                    :
+                                    "Profile Views"
+                        }
+                    </Typography>
                     <Typography className="text-56 font-300 leading-none mt-8">
                         {props.data.Engagement.value}
                     </Typography>
@@ -46,6 +55,7 @@ function Widget4(props) {
                     options={props.data.options}
                 />
             </div>
+
         </Card>
     );
 }

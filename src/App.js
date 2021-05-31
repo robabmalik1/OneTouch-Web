@@ -45,6 +45,9 @@ import LoginSuccess from "./components/user-profiling/auth/login/loginSuccess";
 import PlatformRedirect from "./components/user-profiling/connect/platformRedirect";
 import Live from "./components/livestream/live";
 import MailApp from "./components/mail/MailApp";
+import ContentStudio from "./components/content-library/contentStudio";
+import Kanban from "./components/teams/kanban/kanban";
+import ImageEditor from "./components/content-posting/image-editor/imageEditor";
 
 const jss = create({
   ...jssPreset(),
@@ -116,15 +119,18 @@ function App() {
 
               <Switch>
                 <PrivateRoute path="/PR" component={PlatformRedirect} />
+
                 <PrivateRoute path="/Live" component={Live} />
                 <PrivateRoute path="/Mail/:handle" component={MailApp} />
                 <PrivateRoute path="/Connect/:handle" component={Connect} />
                 <PrivateRoute path="/Publish" component={Publish} />
                 <PrivateRoute path="/Analytics" component={Analytics} />
-                {/* <PrivateRoute path="/Content" component={Content} /> */}
+                 <PrivateRoute path="/ContentStudio" component={ContentStudio} />
+                <PrivateRoute path="/ImageEditor" component={ImageEditor} />
                 <PrivateRoute path="/Teams/Chat" component={Chat} />
                 <PrivateRoute path="/Teams/Call" component={Call} />
                 <PrivateRoute path="/Teams/Details" component={ManageTeams} />
+                <PrivateRoute path="/Teams/Kanban" component={Kanban} />
                 <PrivateRoute path="/Marketing" component={Marketing} />
                 <PrivateRoute path="/Feed/Timeline"  component={PublishedPosts} />
                 <PrivateRoute path="/Feed/Wall" component={Wall} />
@@ -139,6 +145,7 @@ function App() {
         </MuiPickersUtilsProvider>
       </Provider>
     </StylesProvider>
+
   );
 }
 

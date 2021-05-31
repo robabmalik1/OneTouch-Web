@@ -5,7 +5,6 @@ import {getTeamDetails} from "../getDetails/getTeamsOps";
 const TS = new TeamsService();
 
 export const createNewTeam = teamData => dispatch => {
-    alert("Creatingg new team")
     dispatch(actions.processingCreateTeam());
     TS.createTeam(teamData)
         .then(res=>{

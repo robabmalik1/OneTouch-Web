@@ -36,8 +36,8 @@ const Facebook = ({ informParent = f => f, clientId, apiUrl }) => {
         <FacebookLogin
             appId={`${process.env.REACT_APP_FACEBOOK_CLIENT}`}
             autoLoad={false}
-            callback={"http://localhost:5000/user/auth/facebook/callback"}
-            onSuccess={"http://localhost:5000/user/auth/facebook/callback"}
+            callback={`${process.env.REACT_APP_USER_API_URL_HEROKU}/user/auth/facebook/callback`}
+            onSuccess={`${process.env.REACT_APP_USER_API_URL_HEROKU}/user/auth/facebook/callback`}
             fields="name,email,picture"
             cookiePolicy={'single_host_origin'}
             response

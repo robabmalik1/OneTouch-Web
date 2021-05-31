@@ -12,13 +12,6 @@ const navigationConfig = [
                 'url': '/Connect/Dashboard'
             },
             {
-                'id': 'analytics-component',
-                'title': 'Analytics',
-                'type': 'item',
-                'icon': 'dashboard',
-                'url': '/Analytics'
-            },
-            {
                 'id': 'publish-component',
                 'title': 'Publish',
                 'type': 'item',
@@ -73,7 +66,14 @@ const navigationConfig = [
                         'type': 'item',
                         'icon': 'call',
                         'url': '/Teams/Call'
-                    }
+                    },
+                    // {
+                    //     'id': 'teams-kanban-component',
+                    //     'title': 'Kanban',
+                    //     'type': 'item',
+                    //     'icon': 'board',
+                    //     'url': '/Teams/Kanban'
+                    // }
                 ]
             },
 

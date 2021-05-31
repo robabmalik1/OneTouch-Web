@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Unsplash, { toJson } from 'unsplash-js';
-import { Button, Card, TextField, Grid } from '@material-ui/core';
+import {Button, Card, TextField, Grid, Paper, Hidden, IconButton, Icon, Input} from '@material-ui/core';
 import Spin from '../../misc/progress-spinner/Spin';
+import * as Actions from "../../mail/store/actions";
 const unsplash = new Unsplash({ accessKey: process.env.REACT_APP_UNSPLASH_ACCESS_KEY });
 
 class UnsplashLib extends Component {
@@ -11,7 +12,7 @@ class UnsplashLib extends Component {
         this.state = {
             query: '',
             loading: '',
-            photos: []
+            photos: [],
         }
     }
 
@@ -35,6 +36,26 @@ class UnsplashLib extends Component {
     render() {
         return (
             <>
+                <div className="flex flex-1">
+                    <Paper className="bg-lightBlue-600 flex items-center w-full h-36 sm:h-56 p-8 pl-4 md:pl-16 rounded-8 " elevation={1}>
+
+                        <Icon color="action">search</Icon>
+
+                        <Input
+                            placeholder="Search"
+                            className="pl-16"
+                            disableUnderline
+                            fullWidth
+                            value={this.state.query}
+                            inputProps={{
+                                'aria-label': 'Search'
+                            }}
+                            onChange={ev => alert(ev)}
+                        />
+                    </Paper>
+                </div>
+
+
                 <div className="testBackground " >
                     <Card style={{ margin: '1em' }}>
 

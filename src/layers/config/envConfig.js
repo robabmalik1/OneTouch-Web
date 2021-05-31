@@ -2,7 +2,7 @@ import constants from "./constants";
 
 const DEV = {
     ENV_NAME: constants.ENV_VARIABLES.DEV,
-    API_URL: 'http://localhost:5000',
+    API_URL: `https://onetouch-user.herokuapp.com`,
     FEEDS_API_URL: 'http://localhost:5050',
     PUBLISH_API_URL: 'http://localhost:5080',
 };

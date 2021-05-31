@@ -32,16 +32,16 @@ function AnalyticsDashboardApp (props) {
                                 <div className="flex flex-col sm:flex sm:flex-row pb-32">
 
                                     <div className="widget flex w-full sm:w-1/3 p-16">
-                                        <Widget2 data={widgets.data.widget2} />
+                                        <Widget2 data={props.widget.data.widget2} type={props.type} />
                                     </div>
 
                                     <div className="widget flex w-full sm:w-1/3 p-16">
 
-                                        <Widget3 data={props.widget3} />
+                                        <Widget3 data={props.widget.data.widget3} type={props.type}/>
                                     </div>
 
                                     <div className="widget w-full sm:w-1/3 p-16">
-                                        <Widget4 data={widgets.data.widget4} />
+                                        <Widget4 data={props.widget.data.widget4} type={props.type} />
                                     </div>
                                 </div>
 

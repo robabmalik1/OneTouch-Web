@@ -2,7 +2,8 @@
   height: 100%; }
 
 .team-section {
-  background-color: rgba(0, 0, 0, 0.5); }
+  background-color: rgba(0, 0, 0, 0.5);
+}
 
 .card {
   min-width: 200px; }
@@ -13,7 +14,7 @@
 
 .connect-background-img {
   background-image: url("../../assets/connect.svg");
-  background-size: 180vh;
+  background-size: cover;
   background-repeat: no-repeat;
   background-color: #f5f5f7;
   z-index: 1; }

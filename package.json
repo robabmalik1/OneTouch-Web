@@ -12,6 +12,7 @@
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/pickers": "^3.2.10",
     "@popperjs/core": "^2.5.4",
+    "@tailwindcss/forms": "^0.3.2",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.1.2",
     "@testing-library/user-event": "^12.2.2",
@@ -71,7 +72,8 @@
     "redux-thunk": "^2.3.0",
     "simple-peer": "^9.11.0",
     "socket.io-client": "^4.0.2",
-    "tailwindcss": "^2.0.1",
+    "tailwindcss": "^2.1.2",
+    "tui-image-editor": "^3.14.3",
     "unsplash-js": "^6.3.0",
     "velocity-animate": "^1.5.2",
     "velocity-react": "^1.4.3",
@@ -82,10 +84,12 @@
     "watch-css": "npm run build-css && node-sass-chokidar src/styles/global/ -o src/styles/css/ --watch --recursive --usePolling",
     "tailwind": "./node_modules/.bin/tailwind build ./src/styles/tailwind.base.css -c ./tailwind.js -o ./src/styles/tailwind.css",
     "start-js": "react-scripts start",
-    "start": "npm-run-all -p watch-css start-js",
+    "start-old": "npm-run-all -p watch-css start-js",
+    "start": "npm-run-all -p start-js",
     "build": "npm run tailwind && node ./purge-tailwindcss.js && cross-env GENERATE_SOURCEMAP=false && npm run build-css && react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:tailwind": "tailwind build src/assets/styles/index.css -o src/assets/styles/tailwind.css"
   },
   "eslintConfig": {
     "extends": [

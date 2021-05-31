@@ -37,7 +37,7 @@ function NewProfile(props) {
 
 
     const socialPlatformUrl = async (network) => {
-        await axios.get("http://localhost:5000/team/getProfileRedirectUrl?teamId=" + localStore.getCurrTeam() + "&network=" + network, {
+        await axios.get(`${process.env.REACT_APP_USER_API_URL_HEROKU}/team/getProfileRedirectUrl?teamId=` + localStore.getCurrTeam() + "&network=" + network, {
             headers: {'x-access-token': localStore.getToken()}
         })
             .then((res) => {
@@ -148,31 +148,7 @@ function NewProfile(props) {
 
                 <Grid container className={"connect-background-img connect-main"}>
                     <Grid item container className={"team-section"}  xl={12} lg={12} md={12}>
-                        {team &&
-                        <>
-                            <Grid item className={`p-12 ml-24`} md={12} lg={12}>
-                                <Card className={`card`} style={{width: '235px', padding: '2%'}}>
-                                    <CardContent>
-                                        <Typography className={`card-title`} color="textSecondary" gutterBottom>
-                                            Team
-                                        </Typography>
-                                        <h2 className={`-mt-3`}>{team['teamSocialAccountDetails'][0]['team_name']}</h2>
 
-                                        <Typography className={`card-title`} color="textSecondary" gutterBottom>
-                                            Total Accounts Added
-                                        </Typography>
-                                        <h2 className={`-mt-3`}>{team['teamSocialAccountDetails'][0]['SocialAccount'].length}</h2>
-
-                                    </CardContent>
-                                    <CardActions>
-                                        <Button size="medium" onClick={() => {
-                                            props.history.push("/Teams/Details")
-                                        }} variant="contained" color="primary">Manage Teams</Button>
-                                    </CardActions>
-                                </Card>
-
-
-                            </Grid>
                             <Grid item container justify={"space-between"}>
                                 {loginCardsData.map(
                                     (item, index) => {
@@ -246,7 +222,6 @@ function NewProfile(props) {
                             {/*}*/}
 
 
-                        </>
                         }
 
                         {loading &&

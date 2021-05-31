@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { useSelector} from "react-redux";
-import {Avatar, TextField} from "@material-ui/core";
+import {Avatar, Card, CardContent, CardHeader, TextField} from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
 
 function Settings() {
     // const dispatch = useDispatch();
@@ -37,11 +38,39 @@ function Settings() {
 
                     <div style={{padding: "5%"}}>
                     <Avatar src={currPicture} />
-                    <TextField className={"mr-12 mt-12"} label={"First Name"} value={currFName} />
-                    <TextField className={"mt-12"} label={"Last Name"} value={currLName} />
-                    <br/>
-                        <TextField className={"mt-12"} label={"Email"} value={currEmail} style={{width: '235px'}} />
+                    <TextField  className={"mr-12 mt-12 w-1/2 h-1/3 "} label={"First Name"} value={currFName} />
+                    <TextField className={"mt-12 mr-12 w-1/2 h-1/3"} label={"Last Name"} value={currLName} />
+                    <TextField className={"mr-12 mt-12 w-1/2 h-1/3"} label={"Email"} value={currEmail}  />
                     </div>
+                    <Grid container>
+                    <Grid className={"ml-96"} item sm={2}>
+                    <Card>
+                        <CardHeader className={"bg-grey"} title={"Current Plan"} />
+                        <CardContent>
+                            <h3>Platinum</h3>
+                        </CardContent>
+                    </Card>
+                    </Grid>
+                    <Grid className={"ml-32"} item sm={2}>
+                        <Card>
+                            <CardHeader className={"bg-grey"} title={"Teams"} />
+                            <CardContent>
+                                <h3>1</h3>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+
+                    <Grid className={"ml-32"} item sm={2}>
+                        <Card>
+                            <CardHeader className={"bg-grey"} title={"Account Expiration Date"} />
+                            <CardContent>
+                                <h3>2021-07-25 18:13:35</h3>
+                            </CardContent>
+                        </Card>
+
+                    </Grid>
+                    </Grid>
+
 
                 </>
 
@@ -56,6 +85,7 @@ function Settings() {
 
 
     );
+
 }
 
 export default Settings;

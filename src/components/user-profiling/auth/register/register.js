@@ -14,6 +14,7 @@ import { withRouter } from "react-router-dom";
 
 //css
 import "../../../../styles/css/register.css";
+import axios from "axios";
 
 //TODO Change to functional
 export class Register extends Component {
@@ -31,6 +32,7 @@ export class Register extends Component {
             error: null,
             message: null,
             loading: null,
+            isAvailable: '',
             buttonText: "Login"
         };
 
@@ -77,33 +79,87 @@ export class Register extends Component {
         this.setState({ [e.target.id]: e.target.value });
     };
 
-    onSubmit = e => {
-        e.preventDefault();
-
-        if(this.state.password===this.state.password2){
-        const newUser = {
-            user: {
-                    email: this.state.email,
-                    password: this.state.password,
-                    userName: this.state.username,
-                    firstName: this.state.firstname,
-                    lastName: this.state.lastname,
-                    dateOfBirth: this.state.dob,
-                    profilePicture: "http://st2.depositphotos.com/1502311/12020/v/600/depositphotos_120206862-stock-illustration-profile-picture-vector.jpg",
-                    phoneCode: 0,
-                    phoneNo: 0,
-                    country: "Pakistan",
-                    timeZone: "+5:30",
-                    aboutMe: "Default"
-
+    isUsernameAvailable=(username)=>{
+        // e.preventDefault();
+        axios.get(`${process.env.REACT_APP_USER_API_URL_HEROKU}/user/checkUserNameAvailability?userName=${username}`)
+            .then((res)=>{
+                if(res.data.code==400){
+                    // this.setState({isAvailable: false})
+                    alert("Username Unavailable")
+                    return false;
+                }
+                else{
+                    return true;
+                }
+                // this.setState({isAvailable: true})
+            })
+            .then((flag)=>{
+                if(flag){
+                this.isEmailAvailable(this.state.email)
+                }
+            })
+            .then((res)=>{
+            if(res){
+                alert("Available")
             }
-        };
+            else {
+                alert("Unavailable")
+            }
+            })
+    }
 
-        this.props.registerUser(newUser, this.props.history);
-        console.log(newUser);
-        }else{
-            alert("Passwords don't match")
-        }
+
+    isEmailAvailable= (email)=>{
+       axios.get(`${process.env.REACT_APP_USER_API_URL_HEROKU}/user/checkEmailAvailability?email=${email}`)
+            .then((res)=>{
+                if(res.data.code===400){
+
+                    return false;
+                }
+                else{
+                    return true;
+                }
+
+            })
+
+    }
+
+    registerNewUser = async (e) => {
+    e.preventDefault();
+        await this.isUsernameAvailable(this.state.username)
+        // var ea = await this.isEmailAvailable(this.state.email)
+        // setTimeout(()=>{
+        //     if(usa && ea){
+        //             alert("Both available")
+        //     }else{
+        //         alert(usa+ ""+ ea)
+        //     }
+        // },4000)
+
+        // if(this.state.password===this.state.password2){
+        // const newUser = {
+        //     user: {
+        //             email: this.state.email,
+        //             password: this.state.password,
+        //             userName: this.state.username,
+        //             firstName: this.state.firstname,
+        //             lastName: this.state.lastname,
+        //             dateOfBirth: this.state.dob,
+        //             profilePicture: "http://st2.depositphotos.com/1502311/12020/v/600/depositphotos_120206862-stock-illustration-profile-picture-vector.jpg",
+        //             phoneCode: 0,
+        //             phoneNo: 0,
+        //             country: "Pakistan",
+        //             timeZone: "+5:30",
+        //             aboutMe: "Default"
+        //
+        //     }
+        // };
+        //
+        // this.props.registerUser(newUser, this.props.history);
+        // console.log(newUser);
+        // }else{
+        //     alert("Passwords don't match")
+        // }
 
     };
 
@@ -151,9 +207,9 @@ export class Register extends Component {
                                         </div>
                                     </Grid>
                                     <Grid item >
-                                        <form className={`register-form`} autoComplete="off" onChange={this.onChange} onSubmit={this.onSubmit}>
+                                        <form className={`register-form`} autoComplete="off" onChange={this.onChange} onSubmit={this.registerNewUser}>
 
-                                            <TextField
+                                            <TextField required
                                                 value={this.state.firstname}
                                                 fullWidth
                                                 id="firstname"
@@ -171,7 +227,7 @@ export class Register extends Component {
                                                 size="small"
                                             />
 
-                                            <TextField
+                                            <TextField required
                                                 onChange={this.onChange}
                                                 value={this.state.username}
                                                 fullWidth
@@ -198,7 +254,7 @@ export class Register extends Component {
                                                        onBlur={(e) => e.target.type = 'text'}
                                             />
 
-                                            <TextField
+                                            <TextField required
                                                 id="password"
                                                 required
                                                 type="password"
@@ -207,7 +263,7 @@ export class Register extends Component {
                                                 label="Password"
                                             />
 
-                                            <TextField
+                                            <TextField required
                                                 id="password2"
                                                 required
                                                 type="password"

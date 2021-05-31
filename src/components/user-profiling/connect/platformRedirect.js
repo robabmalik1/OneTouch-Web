@@ -70,7 +70,7 @@ function PlatformRedirect(props) {
 
 
     const getFbPages = async (code)=>{
-        await axios.get("http://localhost:5000/profile/getOwnFacebookpages?code="+code,{
+        await axios.get(`${process.env.REACT_APP_USER_API_URL_HEROKU}/profile/getOwnFacebookpages?code=`+code,{
             headers: {'x-access-token': localStore.getToken()}
         })
             .then((res)=>{
@@ -100,7 +100,7 @@ function PlatformRedirect(props) {
     }
 
     const getInstaB = async (code)=>{
-        await axios.get("http://localhost:5000/profile/getInstaBusinessAccount?code="+code,{
+        await axios.get(`${process.env.REACT_APP_USER_API_URL_HEROKU}/profile/getInstaBusinessAccount?code=`+code,{
             headers: {'x-access-token': localStore.getToken()}
         })
             .then((res)=>{
@@ -130,7 +130,7 @@ function PlatformRedirect(props) {
 
     const addBulkAccounts = async (data)=>{
         console.log("arr",data);
-        await axios.post("http://localhost:5000/team/addBulkSocialProfiles?TeamId="+localStore.getCurrTeam(),data,{
+        await axios.post(`${process.env.REACT_APP_USER_API_URL_HEROKU}/team/addBulkSocialProfiles?TeamId=`+localStore.getCurrTeam(),data,{
             headers: {'x-access-token': localStore.getToken()}
         })
             .then((res)=>{
@@ -141,7 +141,7 @@ function PlatformRedirect(props) {
     }
 
     const getYoutubePages = async (code)=>{
-        await axios.get("http://localhost:5000/profile/getYoutubeChannels?code="+code,{
+        await axios.get(`${process.env.REACT_APP_USER_API_URL_HEROKU}/profile/getYoutubeChannels?code=`+code,{
             headers: {'x-access-token': localStore.getToken()}
         })
             .then((res)=>{

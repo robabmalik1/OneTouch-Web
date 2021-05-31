@@ -27,6 +27,7 @@ function Planner(props){
         }
         else{
             setResponse(msg)
+
         }
     }
 
@@ -38,7 +39,7 @@ function Planner(props){
                 eventObjs.push({
                     'title': postContent.description || postContent.normalScheduleDate,
                     'allDay': true,
-                    'start': value.created_date,
+                    'start': value.one_time_schedule_date,
                     'end': value.one_time_schedule_date,
                     'data':{
                         scheduleDetails: value,
@@ -85,6 +86,7 @@ function Planner(props){
                 {(refresh || !refresh) &&
                 <Calendar
                     localizer={localizer}
+                    events={events}
                     events={events}
                     onSelectEvent={eventClicked}
                     startAccessor="start"

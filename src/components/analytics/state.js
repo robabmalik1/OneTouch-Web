@@ -138,7 +138,7 @@ export const widgets = {
         },
         widget2: {
             Growth: {
-                value: 492,
+                value: 0,
                 ofTarget: 13
             },
             chartType: 'bar',

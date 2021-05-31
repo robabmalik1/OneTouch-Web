@@ -5,7 +5,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
 // import TextField from '@material-ui/core/TextField';
-import {Typography, AppBar, Toolbar, Grid} from '@material-ui/core';
+import {Typography, AppBar, Toolbar, Grid, Card, CardHeader, CardContent, Divider} from '@material-ui/core';
 // import AttachedAccounts from "./selectedscheduleaccounts";
 import SocialView from "components/content-posting/publish/social-view/socialView"
 import axios from "axios";
@@ -53,34 +53,89 @@ export default function ScheduledJobModal(props){
                                 </Typography>
                             </Toolbar>
                         </AppBar>
-                        <Typography variant="subtitle1" className="p-4">
+                        <Typography variant="h4" className="p-4">
                             {"Scheduled Post detail"}
                         </Typography>
                         <DialogContent>
-                            <Grid container >
+                            <Grid container  >
                                 {/*<Grid md={3} item>                    */}
                                 {/*    <AttachedAccounts onSelectAccount={(account)=>setSelectedAccounts(account)} />*/}
                                 {/*</Grid>*/}
                                 <Grid md={1}>
-                                    Posting on:
-                                    <br/>
-                                    {/*{props.data.postContents.postingSocialIds}*/}
-                                    {socialAccounts && socialAccounts.teamSocialAccountDetails[0].SocialAccount.map((item,index)=>{
-                                        return(
-                                            props.data.postContents.postingSocialIds.map((i,ind)=>{
-                                               return(
-                                                item.account_id === i? <>
-                                                    {item.first_name}
-                                                </>:<></>
-                                               )
-                                        })
+                                    <Card>
+                                        <CardHeader className={"bg-grey"} title={"Posting on"} />
+                                    <CardContent>
+                                        {socialAccounts && socialAccounts.teamSocialAccountDetails[0].SocialAccount.map((item,index)=>{
+                                            return(
+                                                props.data.postContents.postingSocialIds.map((i,ind)=>{
+                                                    return(
+                                                        item.account_id === i? <>
+                                                            <Typography className={"mb-6"} variant={"h6"}>
+                                                                {item.first_name}
+                                                            </Typography>
+
+                                                            <Divider />
+
+                                                        </>:<></>
+                                                    )
+                                                }
+
+                                                )
+
+                                            )
+
+                                        }
+
                                         )
-                                    })}
-                                </Grid>
-                                <Grid className="overflow-hidden" item md={8} style={{ height: '80vh' }} >
-                                    <Typography variant="h5" className="p-4">
-                                        Job Status:{(props.data.scheduleDetails.schedule_status === 6 )? "Posted": "Pending"}
+
+                                        }
+
+                                    </CardContent>
+
+                                    </Card>
+
+                                    <Card className={"mt-6"}>
+                                        <CardHeader className={"bg-grey"} title={"Posting on"} />
+                                        <CardContent>
+                                            {socialAccounts && socialAccounts.teamSocialAccountDetails[0].SocialAccount.map((item,index)=>{
+                                                    return(
+                                                        props.data.postContents.postingSocialIds.map((i,ind)=>{
+                                                                return(
+                                                                    item.account_id === i? <>
+                                                                        <Typography className={"mb-6"} variant={"h6"}>
+                                                                            {item.first_name}
+                                                                        </Typography>
+
+                                                                        <Divider />
+
+                                                                    </>:<></>
+                                                                )
+                                                            }
+
+                                                        )
+
+                                                    )
+
+                                                }
+
+                                            )
+
+                                            }
+
+                                        </CardContent>
+
+                                    </Card>
+
+                                    <Typography variant="h5" className="p-4 mt-6">
+                                        Job Status: <b>{(props.data.scheduleDetails.schedule_status === 6 )? "Posted": "Pending"} </b>
                                     </Typography>
+
+                                    {/*{props.data.postContents.postingSocialIds}*/}
+                                </Grid>
+
+
+                                <Grid className="overflow-hidden" item md={8} style={{ height: '80vh' }} >
+
                                     <SocialView caption={props.data.postContents.description} img={getUrl()} selectedAccounts={null} />
                                 </Grid>
                             </Grid>                           

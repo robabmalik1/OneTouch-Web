@@ -1,11 +1,13 @@
 import React, {useEffect, useRef, useState} from 'react';
 import io from "socket.io-client";
 import Button from "@material-ui/core/Button";
+import AttachedAccounts from "../content-posting/connected-accounts/attachedAccounts";
+import Grid from "@material-ui/core/Grid";
 
 
 var socketOptions = {secure: true, reconnection: true, reconnectionDelay: 1000, timeout:15000, pingTimeout: 15000, pingInterval: 45000,query: {framespersecond: 60, audioBitrate: 44100}};
-const socket = io.connect('http://localhost:443',socketOptions);
-
+// const socket = io.connect('http://localhost:443',socketOptions);
+let socket = "";
 function Live(props) {
 
     const [ me, setMe ] = useState("")
@@ -19,9 +21,11 @@ function Live(props) {
     const [ name, setName ] = useState("")
     const [state,setState]=useState(false);
     const [isStreaming,setStreaming]=useState(false);
+    const [selectedAccounts,setSelectedAccounts] = useState([]);
     const videoRef = useRef()
     const userVideo = useRef()
     const connectionRef= useRef()
+    const socketRef = useRef();
     let mediaRecorder;
 
     function stopStream(){
@@ -33,6 +37,10 @@ function Live(props) {
                 stream.getTracks().forEach(function(track) {
                     track.stop();
                 });
+                videoRef.current.srcObject = null;
+                setStreaming(false);
+                socket.disconnect();
+                socket="";
             }
             else{
                 setStreaming(false);
@@ -42,12 +50,15 @@ function Live(props) {
     }
 
     const startStream =()=>{
+        socket = io.connect('http://localhost:443',socketOptions);
         var constraints = { audio: true,
             video: { width: 1280, height: 720
             }
         };
 
         //{ video: true, audio: true }
+        if(socket){
+
         navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
             setStream(stream)
             videoRef.current.srcObject = stream
@@ -58,11 +69,12 @@ function Live(props) {
             setStreaming(true)
             console.log(stream)
             mediaRecorder.ondataavailable = function(e) {
-
+                if(socket!=""){
                 socket.emit("binarystream",e.data);
                 // state="start";
                 //chunks.push(e.data);
-            }
+                }
+                }
 
         }).catch(function(err) {
             console.log('The following error occured: ' + err);
@@ -110,29 +122,42 @@ function Live(props) {
             //this is the ffmpeg output for each frame
             // console.log('FFMPEG:'+m);
         });
-
+        }
     }
 
     useEffect(() => {
         if(state){
             startStream();
         }
+        // if(socket){
+        //     return () => { socket.disconnect(); };
+        // }
     }, [videoRef,state])
 
     return (
         <>
-            <div className={"p-16"}>
-                <Button className={"p-16"} variant={"outlined"} onClick={()=>{setState(true)}} >
-                    Start Streaming
-                </Button>
-                <Button className={"p-16"} variant={"outlined"} onClick={()=>{setState(false); stopStream()}} >
-                    Stop Streaming
-                </Button>
-                <div className="video">
-                    {stream &&  <video playsInline muted ref={videoRef} autoPlay style={{ width: "auto" }} />}
-                </div>
-            </div>
-        </>
+            <Grid container className={"ml-2"}>
+                <Grid item sm={2}>
+                    <AttachedAccounts onSelectAccount={(account)=>setSelectedAccounts(account)} />
+                </Grid>
+                <Grid item sm={10}>
+                    <div className={"p-16"}>
+
+
+                        <Button className={"p-16"} variant={"outlined"} onClick={()=>{setState(true)}} >
+                            Start Streaming
+                        </Button>
+                        <Button className={"p-16"} variant={"outlined"} onClick={()=>{setState(false); stopStream()}} >
+                            Stop Streaming
+                        </Button>
+                        <div className="video">
+                            {stream &&  <video playsInline muted ref={videoRef} autoPlay style={{ width: "auto" }} />}
+                        </div>
+                    </div>
+
+                </Grid>
+            </Grid>
+          </>
     );
 }
 

@@ -31,7 +31,7 @@ function NavbarLayout1(props) {
                 color="primary"
                 position="static"
                 elevation={0}
-                className="flex flex-row items-center flex-shrink h-64 min-h-64 pl-20 pr-12"
+                className="flex flex-row items-center flex-shrink h-64 min-h-64 pl-14 pr-6"
             >
 
                 <div className="flex flex-1 pr-8">

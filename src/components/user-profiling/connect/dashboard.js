@@ -50,7 +50,7 @@ function Dashboard(props)
 
     const delAccount = (accountId)=>{
         // setOpen(true)
-        axios.delete("http://localhost:5000/team/deleteSocialProfile?TeamId="+localStore.getCurrTeam()+"&AccountId="+accountId,{
+        axios.delete(`${process.env.REACT_APP_USER_API_URL_HEROKU}/team/deleteSocialProfile?TeamId=`+localStore.getCurrTeam()+"&AccountId="+accountId,{
             headers: {'x-access-token': localStore.getToken()}
         })
             .then((res)=>{
@@ -66,15 +66,40 @@ function Dashboard(props)
 
     return (
         <>
+            <Grid item className={`p-12 ml-24`} md={12} lg={12}>
             {/*team-section */}
-            <Grid item container className={"connect-background-img connect-main p-16"}   xl={12} lg={12} md={12} sm={12}>
+            <Grid item container className={"connect-background-img connect-main p-16"} alignItems={"flex-start"}  xl={12} lg={12} md={12} sm={12}>
                 {/* <img src={logo} width={100}></img> */}
+                {team &&
+                <>
+                    <Card className={`card`} style={{width: '235px', padding: '2%'}}>
+                        <CardContent>
+                            <Typography className={`card-title`} color="textSecondary" gutterBottom>
+                                Team
+                            </Typography>
+                            <h2 className={`-mt-3`}>{team['teamSocialAccountDetails'][0]['team_name']}</h2>
 
-                <Grid item container className={"team-section p-16"} justify={"space-between"} direction="row" xl={12} lg={12} md={12}>
+                            <Typography className={`card-title`} color="textSecondary" gutterBottom>
+                                Total Accounts Added
+                            </Typography>
+                            <h2 className={`-mt-3`}>{team['teamSocialAccountDetails'][0]['SocialAccount'].length}</h2>
+
+                        </CardContent>
+                        <CardActions>
+                            <Button size="medium" onClick={() => {
+                                props.history.push("/Teams/Details")
+                            }} variant="contained" color="primary">Manage Teams</Button>
+                        </CardActions>
+                    </Card>
+
+                </>
+                }
+            </Grid>
+                <Grid item container spacing={2} className={"team-section "} justify={"center"} alignItems={"center"} direction="row" xl={12} lg={12} md={12}>
                 {team && team["teamSocialAccountDetails"][0]["SocialAccount"].map((value, key) => {
                     return (
                         <>
-                            <Grid item md={12} key={key} lg={3} style={{margin: 5}}>
+                            <Grid item md={12} key={key} lg={4} >
                                 <Card className={`card`} style={{width: '100%'}}>
                                     <CardContent>
                                         <Avatar src={value["profile_pic_url"]}/>
@@ -115,15 +140,23 @@ function Dashboard(props)
                                                             accountId: value["account_id"],
                                                             socialId: value["social_id"],
                                                             accountType: value["account_type"],
-                                                            currTeam: localStore.getCurrTeam()
+                                                            currTeam: localStore.getCurrTeam(),
+                                                            dp: value["profile_pic_url"],
+                                                            name: value["first_name"]+" "+value["last_name"]
                                                         }
 
                                                     });
                                                 }}>View Feeds</Button>
                                         <Button size="medium" variant="contained" onClick={()=>{setId(value["account_id"]);setOpen(true);}} color="primary">Remove
                                             Account</Button>
-                                        <Button size="medium" variant="contained" color="primary">Lock this
+                                        {!value.join_table_teams_social_accounts.is_account_locked &&
+                                        <Button size="medium" variant="contained" color="primary">Lock
                                             profile</Button>
+                                        }
+                                        {value.join_table_teams_social_accounts.is_account_locked &&
+                                        <Button size="medium" variant="contained" color="primary">Unlock
+                                            profile</Button>
+                                        }
                                         <Button size="medium" variant="contained" color="primary" onClick={()=> {setAccType(value["account_type"]);setInsightDailogStatus(true);}}>
                                             View Insights</Button>
                                     </CardActions>
@@ -158,7 +191,7 @@ function Dashboard(props)
                 })}
                     {team && team["teamSocialAccountDetails"][0]["SocialAccount"].length==0?
                         <>
-                        <h1>No Accounts Added</h1>
+                        <h1 className={"h-screen"}>No Accounts Added</h1>
                         </>:<></>
 
                     }

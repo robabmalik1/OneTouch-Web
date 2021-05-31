@@ -1,6 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
+import otlogo from "../../../assets/otlogo.svg";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -29,7 +30,7 @@ function Logo() {
 
     return (
         <div className={clsx(classes.root, "flex items-center")}>
-            <img className="logo-icon" width="56" src="assets/images/logos/otlogo.svg" alt="logo" />
+            <img className="-ml-24 w-[calc(100%+2rem)]"  src={otlogo} alt="onetouchlogo" />
             <div className={clsx(classes.reactBadge, "react-badge flex items-center ml-12 mr-8 py-4 px-8 rounded")}>
                 <span className="react-text text-12 ml-4">One Touch</span>
             </div>

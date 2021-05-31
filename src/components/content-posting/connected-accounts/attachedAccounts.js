@@ -13,11 +13,12 @@ import {
     // List,
     Divider,
     ListItem,
-    ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, ListItemIcon
+    ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, ListItemIcon, Icon, Badge, withStyles
 } from '@material-ui/core';
-
+import FacebookIcon from '@material-ui/icons/Facebook';
 // import { allAttachedAccounts } from "../../../layers/utils/attachedAccounts";
 import Checkbox from '@material-ui/core/Checkbox';
+import {Instagram, LinkedIn, Twitter, YouTube} from "@material-ui/icons";
 // import FormGroup from '@material-ui/core/FormGroup';
 // import FormControlLabel from '@material-ui/core/FormControlLabel';
 // import FormControl from '@material-ui/core/FormControl';
@@ -87,10 +88,18 @@ export default function AttachedAccounts(props){
     const loading = useSelector(state => state.currTeam.processingTeams);
     const error = useSelector(state => state.currTeam.CurrentTeamFailed);
 
+    const SmallAvatar = withStyles((theme) => ({
+        root: {
+            width: 22,
+            height: 22,
+            border: `2px solid ${theme.palette.background.paper}`,
+        },
+    }))(Avatar);
+
         return (
             <>
                 {/*{profilesLinked()}*/}
-                <Card className="w-full max-h-screen h-4/5 mt-24">
+                <Card className="w-full max-h-screen mt-24">
                     <AppBar position="static" elevation={0}>
                         <Toolbar className="pl-16 pr-8">
                             <Typography variant="title" color="inherit" className="flex-1">
@@ -121,12 +130,35 @@ export default function AttachedAccounts(props){
                                             />
                                         </ListItemIcon>
                                         <ListItemAvatar>
-                                            <Avatar src={profile["profile_pic_url"]} />
+                                            <Badge
+                                                overlap="circle"
+                                                anchorOrigin={{
+                                                    vertical: 'bottom',
+                                                    horizontal: 'right',
+                                                }}
+                                                badgeContent={
+                                                    <>
+                                                    <div className={"rounded bg-blue text-white p-4"} style={{width: 15, height: 15, border: `1px solid grey`,borderRadius: '15px'}}>
+                                                        {profile["account_type"]===1 && <FacebookIcon />}
+                                                        {profile["account_type"]===2 && <FacebookIcon />}
+                                                        {profile["account_type"]===12 && <Instagram />}
+                                                        {profile["account_type"]===9 && <YouTube />}
+                                                        {profile["account_type"]===6 && <LinkedIn />}
+                                                        {profile["account_type"]===4 && <Twitter />}
+                                                    </div>
+                                                    </>
+                                                }
+                                            >
+                                                <Avatar src={profile["profile_pic_url"]} />
+                                            </Badge>
+
                                         </ListItemAvatar>
+
                                         <ListItemText
                                             primary={profile["first_name"] + " "+profile["last_name"]}
                                             // secondary={team["SocialAccount"].length + " Accounts"}
                                         />
+
                                     </ListItem>
 
                                 </>

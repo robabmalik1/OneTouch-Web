@@ -1,11 +1,11 @@
 // import React, {useState} from 'react';
 // import {Avatar, Button, Tab, Tabs, Typography} from '@material-ui/core';
 // import {makeStyles} from '@material-ui/styles';
-// import {FusePageSimple, FuseAnimate} from 'components/misc/Navigation/vertical/node_modules/@fuse';
+// import {FusePageSimple, FuseAnimate} from '../../misc/Navigation/';
 // import TimelineTab from './tabs/TimelineTab';
 // import PhotosVideosTab from './tabs/PhotosVideosTab';
 // import AboutTab from './tabs/AboutTab';
-
+//
 // const useStyles = makeStyles(theme => ({
 //     layoutHeader: {
 //         height                        : 320,
@@ -16,17 +16,17 @@
 //         }
 //     }
 // }));
-
+//
 // function ProfilePage()
 // {
 //     const classes = useStyles();
 //     const [selectedTab, setSelectedTab] = useState(0);
-
+//
 //     function handleTabChange(event, value)
 //     {
 //         setSelectedTab(value);
 //     }
-
+//
 //     return (
 //         <FusePageSimple
 //             classes={{
@@ -43,7 +43,7 @@
 //                             <Typography className="md:ml-24" variant="h4" color="inherit">John Doe</Typography>
 //                         </FuseAnimate>
 //                     </div>
-
+//
 //                     <div className="flex items-center justify-end">
 //                         <Button className="mr-8 normal-case" variant="contained" color="secondary" aria-label="Follow">Follow</Button>
 //                         <Button className="normal-case" variant="contained" color="primary" aria-label="Send Message">Send Message</Button>
@@ -94,5 +94,5 @@
 //         />
 //     )
 // }
-
+//
 // export default ProfilePage;

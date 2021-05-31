@@ -60,7 +60,7 @@ function ManageTeams(){
 
     //Get Team Invitations
     const getInvitations =  ()=>{
-        axios.get("http://localhost:5000/team/getTeamInvitations",{
+        axios.get(`${process.env.REACT_APP_USER_API_URL_HEROKU}/team/getTeamInvitations`,{
             headers: {'x-access-token': localStore.getToken()}
         })
             .then((res)=>{
@@ -85,7 +85,7 @@ function ManageTeams(){
 //Invite To Team
     const sendInvite=()=>{
         if(invite.length>0) {
-            axios.post("http://localhost:5000/team/invite?TeamId="+localStore.getCurrTeam()+"&Email="+invite+"&Permission=1",null,{
+            axios.post(`${process.env.REACT_APP_USER_API_URL_HEROKU}/team/invite?TeamId=`+localStore.getCurrTeam()+"&Email="+invite+"&Permission=1",null,{
                 headers: {'x-access-token': localStore.getToken()}
             })
                 .then((res)=>{
@@ -111,7 +111,7 @@ function ManageTeams(){
     }
 
     const deleteTeam=(teamId)=>{
-        axios.delete("http://localhost:5000/team/delete?TeamId="+teamId,{
+        axios.delete(`${process.env.REACT_APP_USER_API_URL_HEROKU}/team/delete?TeamId=`+teamId,{
             headers: {'x-access-token': localStore.getToken()}
         })
             .then((res)=>{
@@ -136,7 +136,7 @@ function ManageTeams(){
     }
 
     const editTeam=(teamId)=>{
-        axios.post("http://localhost:5000/team/edit?TeamId="+teamId,
+        axios.post(`${process.env.REACT_APP_USER_API_URL_HEROKU}/team/edit?TeamId=`+teamId,
             {
                 TeamInfo: {
                     name: editTeamName,
@@ -171,7 +171,7 @@ function ManageTeams(){
     }
 
     const acceptInvitation=(teamId)=>{
-        axios.post("http://localhost:5000/team/acceptInvitation?TeamId="+teamId,
+        axios.post(`${process.env.REACT_APP_USER_API_URL_HEROKU}/team/acceptInvitation?TeamId=`+teamId,
             null
             ,{
                 headers: {'x-access-token': localStore.getToken()}
@@ -363,7 +363,7 @@ function ManageTeams(){
 
                                                             <Divider />
                                                             <ListItem button id={profile["account_id"]} onClick={()=>{
-                                                                alert("CLicked")
+
                                                             }}>
                                                                 <ListItemAvatar>
                                                                     <Avatar src={profile["profile_pic_url"]} />
@@ -373,9 +373,9 @@ function ManageTeams(){
                                                                     // secondary={team["SocialAccount"].length + " Accounts"}
                                                                 />
                                                                 <ListItemSecondaryAction>
-                                                                    <IconButton edge="end" aria-label="delete">
-                                                                        < Delete fontSize="large" />
-                                                                    </IconButton>
+                                                                    {/*<IconButton edge="end" aria-label="delete">*/}
+                                                                    {/*    < Delete fontSize="large" />*/}
+                                                                    {/*</IconButton>*/}
                                                                 </ListItemSecondaryAction>
                                                             </ListItem>
 
@@ -710,8 +710,7 @@ function ManageTeams(){
     }
 
     const onSubmit = (e) => {
-        e.preventDefault();
-        alert("Clicked")
+        // e.preventDefault();
         const teamData = {
             TeamInfo : {
                 name: teamName,
